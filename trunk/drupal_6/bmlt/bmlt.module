@@ -1,0 +1,262 @@
+<?php
+/**
+	\file bmlt/bmlt.module
+	\brief The implementation of the Drupal BMLT satellite server module.
+	\version 2.1.8
+	//$Id$
+*/
+require_once ( dirname ( __FILE__ ).'/bmlt-drupal-satellite-plugin.php' );
+
+/***********************************************/
+/**
+	\brief Sets up the menu for the BMLT
+*/
+function bmlt_menu ( ) 
+	{
+    global $BMLTPluginOp;
+    
+    $items = array();
+    
+    $items['admin/settings/bmlt'] = array(
+        'title' => $BMLTPluginOp->process_text ( 'BMLT Settings' ),
+        'description' => $BMLTPluginOp->process_text ( 'Set the location and Google Maps API key for the BMLT plugin' ),
+        'page callback' => 'bmlt_admin_form',
+        'access arguments' => array ( $BMLTPluginOp->process_text ( 'access administration pages' ) )
+        );
+    
+	return $items;
+	}
+
+/***********************************************/
+/**
+	\brief This function sets up the header for the module.
+*/
+function bmlt_init ( )
+	{
+    global $BMLTPluginOp;
+    
+	$BMLTOptions = bmlt_getAdminOptions ( );
+	
+	$root_server = $BMLTOptions['root_server']."client_interface/xhtml/index.php";
+	
+	$http_vars = array_merge_recursive ( $_GET, $_POST );
+	$http_vars['gmap_key'] = $BMLTOptions['gmaps_api_key'];
+
+	if ( !is_array ( $http_vars ) || (!isset ( $http_vars['search_form'] ) && !isset ( $http_vars['single_meeting_id'] ) && !isset ( $http_vars['do_search'] )) )
+		{
+		$http_vars['search_form'] = true;
+		}
+	
+	if ( !isset ( $BMLTOptions['support_old_browsers'] ) || !$BMLTOptions['support_old_browsers'] )
+		{
+		$http_vars['supports_ajax'] = 'yes';
+		$http_vars['no_ajax_check'] = 'yes';
+		}
+	else
+		{
+		unset ( $http_vars['no_ajax_check'] );
+		}
+	
+	$params = '';
+	
+	foreach ( $http_vars as $key => $value )
+		{
+		if ( $key != 'switcher' )	// We don't propagate switcher.
+			{
+			if ( is_array ( $value ) )
+				{
+				foreach ( $value as $val )
+					{
+					if ( !is_array ( $val ) )
+						{
+						$params .= '&'.urlencode ( $key ) ."[]=". urlencode ( $val );
+						}
+					}
+				$key = null;
+				}
+			if ( $key )
+				{
+				$params .= '&'.urlencode ( $key ) ."=". urlencode ( $value );
+				}
+			}
+		}
+	
+	if ( isset ( $http_vars['redirect_ajax'] ) && $http_vars['redirect_ajax'] )
+		{
+		$uri = "$root_server?switcher=RedirectAJAX$params";
+		die ( bmlt_call_curl ( $uri, false ) );
+		}
+	elseif ( isset ( $http_vars['result_type_advanced'] ) && ($http_vars['result_type_advanced'] == 'booklet') )
+		{
+		$uri = $BMLTOptions['root_server']."local_server/pdf_generator/?list_type=booklet$params";
+		header ( "Location: $uri" );
+		die();
+		}
+	elseif ( isset ( $http_vars['result_type_advanced'] ) && ($http_vars['result_type_advanced'] == 'listprint') )
+		{
+		$uri = $BMLTOptions['root_server']."local_server/pdf_generator/?list_type=listprint$params";
+		header ( "Location: $uri" );
+		die();
+		}
+
+	$uri = "$root_server?switcher=GetHeaderXHTML&style_only$params";
+	try
+		{
+		$header_code = preg_replace ( '/[^\.\,\;= a-zA-Z0-9\&\?\-_\#:\/\\\]/', '', bmlt_call_curl ( $uri, false ) );
+		$styles = explode ( " ", $header_code );
+		foreach ( $styles as $uri2 )
+			{
+			$media = null;
+			if ( preg_match ( '/print/', $uri2 ) )
+				{
+				$media = 'print';
+				}
+			
+			$root_server_root2 = $root_server_root;
+			
+			if ( preg_match ( '|http://|', $uri2 ) )
+				{
+				$root_server_root2 = '';
+				}
+			
+			$attr['href'] = "$root_server_root2$uri2";
+			$attr['rel'] = 'stylesheet';
+			$attr['type'] = 'text/css';
+			$attr['media'] = $media;
+			drupal_add_link ( $attr );
+			}
+		}
+	catch ( Exception $e )
+		{
+		}
+
+	drupal_add_css ( "modules/bmlt/bmlt-styles.css" );
+	
+	$additional_css = trim ( $BMLTOptions['additional_css'] );
+	if ( $BMLTOptions['push_down_more_details'] )
+		{
+		$additional_css .= 'table#bmlt_container div.c_comdef_search_results_single_ajax_div{position:static;margin:0;width:100%;}';
+		$additional_css .= 'table#bmlt_container div.c_comdef_search_results_single_close_box_div{position:relative;left:100%;margin-left:-18px;}';
+		$additional_css .= 'table#bmlt_container div#bmlt_contact_us_form_div{position:static;width:auto;margin:0;}';
+		}
+	
+	if ( $additional_css )
+		{
+		drupal_set_html_head ( '<style type="text/css">'.preg_replace ( "|\s+|", " ", $additional_css ).'</style>' );
+		}
+	}
+
+/***********************************************/
+/**
+	\brief	This displays the actual BMLT content if the
+			text has "<!--BMLT-->" in it.
+*/
+function bmlt_filter (	$op = 'list',
+						$delta = 0,
+						$format = -1,
+						$text = '',
+						$cache_id = 0
+						)
+{
+    global $BMLTPluginOp;
+    
+	switch ( $op )
+		{
+		case 'list':
+			$text = array ( $BMLTPluginOp->process_text($BMLTPluginOp->local_strings['en']['list_text']) );
+		break;
+		
+		case 'no cache':
+			return TRUE;
+		break;
+		
+		case 'description':
+			$text = $BMLTPluginOp->process_text ('Add a BMLT instance inline in text.');
+		break;
+        
+		case 'prepare':
+			// We have to replace the comments, because Drupal eats them, otherwise.
+			if ( preg_match ( '|\<!\-\-\s?BMLT\s?\-\-\>|', $text ) )
+				{
+				$text = preg_replace('|\<!\-\-\s?BMLT\s?\-\-\>|', "###BMLT###", $text);
+				bmlt_init ( );
+				}
+			elseif ( preg_match ( '|\[\[\s?BMLT\s?\]\]|', $text ) )
+				{
+				$text = preg_replace('|\[\[\s?BMLT\s?\]\]|', "###BMLT###", $text);
+				bmlt_init ( );
+				}
+			
+			while ( preg_match ( '|\<!\-\-\s?BMLT_SIMPLE\s?\((.*?)\)\s?\-\-\>|', $text) )
+				{
+				$text = preg_replace('|\<!\-\-\s?BMLT_SIMPLE\s?\((.*?)\)\s?\-\-\>|', "###BMLT_SIMPLE($1)###", $text, 1 );
+				}
+			
+			while ( preg_match ( '|\[\[\s?BMLT_SIMPLE\s?\((.*?)\)\s?\]\]|', $text) )
+				{
+				$text = preg_replace('|\[\[\s?BMLT_SIMPLE\s?\((.*?)\)\s?\]\]|', "###BMLT_SIMPLE($1)###", $text, 1 );
+				}
+		break;
+		
+		case 'process':
+			if ( preg_match ( '|###BMLT###|', $text ) )
+				{
+				$block = bmlt_block ( 'view', 0, array(), true );
+				$text = str_replace('###BMLT###', $block['content'], $text);
+				}
+			if ( preg_match ( '|###BMLT_SIMPLE\\((.*?)\)###|', $text ) )
+				{
+				$BMLTOptions = bmlt_getAdminOptions ( );
+				
+				$matches = array();
+				while ( preg_match ( '|###BMLT_SIMPLE\\((.*?)\)###|', $text, $matches) )
+					{
+					$uri = $BMLTOptions['root_server']."client_interface/simple/index.php?".str_replace ( '&amp;', '&', $matches[1] );
+					$repl = bmlt_call_curl ( $uri, false );
+					$text = preg_replace('|###BMLT_SIMPLE.*?###|', $repl, $text, 1 );
+					}
+				}
+		break;
+		}
+	
+	return $text;
+}
+
+/***********************************************/
+/**
+	\brief	This displays the actual BMLT content.
+*/
+function bmlt_block (	$op = 'list',
+						$delta = 0,
+						$edit = array(),
+						$is_filter = false
+					)
+	{
+    global $BMLTPluginOp;
+    
+	$block = null;
+	
+	switch ( $op )
+		{
+		case 'list':
+			// Generate listing of blocks from this module, for the admin/block page
+			$block = array();
+			$block[0]["info"] = $BMLTPluginOp->process_text ( 'Basic Meeting List Toolbox' );
+		break;
+		
+		case 'view':
+		break;
+ 		}
+	
+	return $block;
+	}
+
+/***********************************************/
+/**
+*/
+function bmlt_admin_form ( )
+	{
+    global $BMLTPluginOp;
+    
+	return $ret;
+	}

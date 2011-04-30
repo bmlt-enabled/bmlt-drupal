@@ -1,0 +1,28 @@
+/***********************************************************************/
+/** \mainpage
+	<div style="height:24px"></div>
+	<div style="height:80px;background-color: #0013d2;background-image:url(../images/DocHeader.gif);background-position:center top;background-repeat:no-repeat"></div>
+	
+	This is the Drupal Module for the BMLT.
+	
+	\license This code is completely open and free. You may access it by <a href="http://magshare.org/welcome-to-magshare/bmlt-the-basic-meeting-list-toolbox/">visiting the BMLT Project Site</a>. It should never be sold.
+	\version 2.1.8
+	
+	<h1>INSTALLATION</h1>
+	You unzip the bmlt.zip file, and place the resulting "bmlt" directory into your Drupal sites/all/modules/ directory. If the directory does not already exist, you should create it.
+	
+	You then need to activate the block, and/or activate the input filter (which replaces
+	&lt;!--BMLT--&gt; with the BMLT implementation).
+	
+	In order to use the filter, you need to set up an input format at Administer &gt; Site Configuration &gt; Input Formats &gt;
+	
+	You need to specify an input format that uses the BMLT Inline filter.
+	
+	The BMLT filter is called "BMLT Inline", and works by replacing inline HTML &lt;!--BMLT--&gt; with the BMLT.
+	Just write a page or story, select the BMLT Inline input format for that page, and add that HTML to it.
+	At that point, you will get a BMLT instance.
+	
+	<h2 id="docs_release_notes">RELEASE NOTES:</h2>
+	- April 30, 2011 -2.1.8 Release
+	    - Major rewrite
+*/
