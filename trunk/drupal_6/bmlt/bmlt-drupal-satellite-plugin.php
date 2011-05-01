@@ -5,6 +5,22 @@
 *   \brief  This is a Drupal plugin of a BMLT satellite client.                             *
 *   \version 2.1.8                                                                          *
 *                                                                                           *
+    This file is part of the Basic Meeting List Toolbox (BMLT).
+    
+    Find out more at: http://magshare.org/bmlt
+    
+    BMLT is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    BMLT is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with this code.  If not, see <http://www.gnu.org/licenses/>.
 ********************************************************************************************/
 
 // define ( '_DEBUG_MODE_', 1 ); //Uncomment for easier JavaScript debugging.
@@ -30,9 +46,15 @@ class BMLTDrupalPlugin extends BMLTPlugin
 
 
     var $local_strings = array ( 'en' => array (
-                                    'list_text' => 'Substitute &quot;&lt;!--BMLT--&gt;&quot; with an instance of the BMLT'
+                                    'list_text' => 'Substitute &quot;&lt;!--BMLT--&gt;&quot; with an instance of the BMLT',
+                                    'add_instance' => 'Add a BMLT instance inline in text.',
+                                    'bmlt' =>'Basic Meeting List Toolbox',
+                                    'bmlt_settings' => 'BMLT Settings',
+                                    'describe_admin' => 'Set the location and Google Maps API key for the BMLT plugin',
+                                    'access_admin' => 'access administration pages'
                                     )
                                 );
+                                
     /************************************************************************************//**
     *   \brief Constructor.                                                                 *
     ****************************************************************************************/

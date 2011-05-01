@@ -4,6 +4,23 @@
 	\brief The implementation of the Drupal BMLT satellite server module.
 	\version 2.1.8
 	//$Id$
+    
+    This file is part of the Basic Meeting List Toolbox (BMLT).
+    
+    Find out more at: http://magshare.org/bmlt
+    
+    BMLT is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    BMLT is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with this code.  If not, see <http://www.gnu.org/licenses/>.
 */
 require_once ( dirname ( __FILE__ ).'/bmlt-drupal-satellite-plugin.php' );
 
@@ -18,10 +35,10 @@ function bmlt_menu ( )
     $items = array();
     
     $items['admin/settings/bmlt'] = array(
-        'title' => $BMLTPluginOp->process_text ( 'BMLT Settings' ),
-        'description' => $BMLTPluginOp->process_text ( 'Set the location and Google Maps API key for the BMLT plugin' ),
-        'page callback' => 'bmlt_admin_form',
-        'access arguments' => array ( $BMLTPluginOp->process_text ( 'access administration pages' ) )
+        'title' => $BMLTPluginOp->process_text($BMLTPluginOp->local_strings['en']['bmlt_settings']),
+        'description' => $BMLTPluginOp->process_text($BMLTPluginOp->local_strings['en']['describe_admin'] ),
+        'page callback' => array ( $BMLTPluginOp, 'return_admin_page' );
+        'access arguments' => array ( $BMLTPluginOp->process_text ($BMLTPluginOp->local_strings['en']['access_admin']) )
         );
     
 	return $items;
@@ -171,7 +188,7 @@ function bmlt_filter (	$op = 'list',
 		break;
 		
 		case 'description':
-			$text = $BMLTPluginOp->process_text ('Add a BMLT instance inline in text.');
+			$text = $BMLTPluginOp->process_text($BMLTPluginOp->local_strings['en']['add_instance']);
 		break;
         
 		case 'prepare':
@@ -241,7 +258,7 @@ function bmlt_block (	$op = 'list',
 		case 'list':
 			// Generate listing of blocks from this module, for the admin/block page
 			$block = array();
-			$block[0]["info"] = $BMLTPluginOp->process_text ( 'Basic Meeting List Toolbox' );
+			$block[0]["info"] = $BMLTPluginOp->process_text($BMLTPluginOp->local_strings['en']['bmlt'] );
 		break;
 		
 		case 'view':
