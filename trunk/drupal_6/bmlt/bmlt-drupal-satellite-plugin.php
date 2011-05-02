@@ -164,7 +164,7 @@ class BMLTDrupalPlugin extends BMLTPlugin
                                         )
         {
         $ret = false;
-        
+
         $default_var = serialize ( array ( 0 => $this->geDefaultBMLTOptions() ) );
         $row = variable_get ( 'bmlt_settings', $default_var );
 
@@ -185,10 +185,9 @@ class BMLTDrupalPlugin extends BMLTPlugin
 
             $row_data = serialize ( $row_data );
             
-            if ( variable_set ( 'bmlt_settings', $row_data ) )
-                {
-                $ret = true;
-                }
+            variable_set ( 'bmlt_settings', $row_data );
+
+            $ret = true;
             }
             
         return $ret;

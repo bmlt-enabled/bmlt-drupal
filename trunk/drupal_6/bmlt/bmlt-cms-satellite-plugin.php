@@ -692,6 +692,7 @@ class BMLTPlugin
                             )
         {
         $ret = false;
+// die ( '<pre>'.htmlspecialchars(print_r($in_option_number,true)).'</pre>' );            
         
         if ( ($in_option_number == null) || (intval($in_option_number) < 1) || (intval($in_option_number) > ($this->get_num_options ( ) + 1)) )
             {
@@ -1350,7 +1351,6 @@ class BMLTPlugin
     ****************************************************************************************/
     function admin_ajax_handler ( )
         {
- //echo ( '<pre>'.htmlspecialchars(print_r($this->my_http_vars,true)).'</pre>' );            
         // We only go here if we are in an AJAX call (This function dies out the session).
         if ( isset ( $this->my_http_vars['BMLTPlugin_Save_Settings_AJAX_Call'] ) )
             {

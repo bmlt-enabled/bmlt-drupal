@@ -76,6 +76,7 @@ function BMLTPlugin_AjaxRequest (   url,        ///< The URI to be called
     req.finalCallback = callback;
     var sVars = null;
     method = method.toString().toUpperCase();
+    var drupal_kludge = '';
     
     // Split the URL up, if this is a POST.
     if ( method == "POST" )
@@ -83,6 +84,13 @@ function BMLTPlugin_AjaxRequest (   url,        ///< The URI to be called
         var rmatch = /^([^\?]*)\?(.*)$/.exec ( url );
         url = rmatch[1];
         sVars = rmatch[2];
+        // This horrible, horrible kludge, is because Drupal insists on having its q parameter in the GET list only.
+        var rmatch_kludge = /(q=admin\/settings\/bmlt)&?(.*)/.exec ( rmatch[2] );
+        if ( rmatch_kludge[1] )
+            {
+            url += '?'+rmatch_kludge[1];
+            sVars = rmatch_kludge[2];
+            };
         };
     if ( extra_data )
         {
