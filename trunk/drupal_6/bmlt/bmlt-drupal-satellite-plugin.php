@@ -303,19 +303,14 @@ class BMLTDrupalPlugin extends BMLTPlugin
     /************************************************************************************//**
     *   \brief Echoes any necessary head content.                                           *
     ****************************************************************************************/
-    function standard_head ( )
+    function standard_head ( $in_text = null   ///< This is the page content text.
+                            )
         {
         $load_head = false;   // This is a throwback. It prevents the GM JS from being loaded if there is no directly specified settings ID.
         $head_content = "<!-- Added by the BMLT plugin 2.0. -->\n<meta http-equiv=\"X-UA-Compatible\" content=\"IE=EmulateIE7\" />\n<meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />\n<meta http-equiv=\"Content-Script-Type\" content=\"text/javascript\" />\n";
         $load_head = true;
         
-        // If you specify the bmlt_mobile custom field in this page (not post), then it can force the browser to redirect to a mobile handler.
-        // The value of bmlt_mobile must be the settings ID of the server you want to handle the mobile content.
-        // Post redirectors are also handled, but at this point, only the page will be checked.
-        $page_id = null;
-        $page = get_page($page_id);
-        
-        $support_mobile = $this->cms_get_page_settings_id ( $page->post_content, true );
+        $support_mobile = $this->cms_get_page_settings_id ( $in_text, true );
         
         if ( $support_mobile )
             {
@@ -480,29 +475,6 @@ class BMLTDrupalPlugin extends BMLTPlugin
         $head_content .= 'admin_javascript.js"></script>';
             
         drupal_set_html_head ( $head_content );
-        }
-    
-    /************************************************************************************//**
-    *   \brief Massages the page content.                                                   *
-    *                                                                                       *
-    *   \returns a string, containing the "massaged" content.                               *
-    ****************************************************************************************/
-    function content_filter ( $in_the_content   ///< The content in need of filtering.
-                            )
-        {
-        // Simple searches can be mixed in with other content.
-        $in_the_content = $this->display_simple_search ( $in_the_content );
-
-        $count = 0;
-
-        $in_the_content = $this->display_popup_search ( $in_the_content, $this->cms_get_post_meta ( get_the_ID(), 'bmlt_simple_searches' ), $count );
-        
-        if ( !$count )
-            {
-            $in_the_content = $this->display_old_search ( $in_the_content, $count );
-            }
-        
-        return $in_the_content;
         }
 };
 

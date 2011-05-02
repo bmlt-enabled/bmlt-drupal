@@ -77,6 +77,32 @@ function bmlt_filter (	$op = 'list',
 						$cache_id = 0
 						)
     {
+    global $BMLTPluginOp;
+    
+	switch ( $op )
+		{
+		case 'list':
+			$text = array ( $BMLTPluginOp->process_text ( $BMLTPluginOp->local_strings['en']['add_instance'] ) );
+		break;
+		
+		case 'no cache':
+			return TRUE;
+		break;
+		
+		case 'description':
+			$text = $BMLTPluginOp->process_text ( $BMLTPluginOp->local_strings['en']['add_instance'] );
+		break;
+        
+		case 'prepare':
+            $BMLTPluginOp->standard_head($text);
+		break;
+		
+		case 'process':
+		    $text = $BMLTOptions->content_filter($text);
+		break;
+		}
+	
+	return $text;
     }
 
 /***********************************************/
@@ -89,4 +115,9 @@ function bmlt_block (	$op = 'list',
 						$is_filter = false
 					)
 	{
+    global $BMLTPluginOp;
+    
+    $BMLTPluginOp->standard_head();
+	$block['subject'] = $BMLTPluginOp->local_strings['en']['bmlt'];
+	$block['content'] = $BMLTPluginOp->content_filter('[[bmlt]]');
 	}
