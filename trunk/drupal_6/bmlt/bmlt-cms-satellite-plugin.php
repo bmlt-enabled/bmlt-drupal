@@ -998,7 +998,6 @@ class BMLTPlugin
         $process_html = $this->process_admin_page($selected_option);
         $options_coords = array();
 
-
         $html = '<div class="BMLTPlugin_option_page" id="BMLTPlugin_option_page_div">';
             $html .= '<noscript class="no_js">'.$this->process_text ( self::$local_noscript ).'</noscript>';
             $html .= '<div id="BMLTPlugin_options_container" style="display:none">';    // This is displayed using JavaScript.
@@ -1518,7 +1517,6 @@ class BMLTPlugin
                 $uri = trim ( $this->my_http_vars['BMLTPlugin_AJAX_Call_Check_Root_URI'] );
                 
                 $test = new bmlt_satellite_controller ( $uri );
-                
                 if ( $uri && ($uri != self::$local_options_no_root_server_string ) && $test instanceof bmlt_satellite_controller )
                     {
                     if ( !$test->get_m_error_message() )

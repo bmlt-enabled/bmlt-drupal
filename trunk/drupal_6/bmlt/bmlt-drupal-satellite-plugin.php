@@ -40,11 +40,9 @@ require_once ( dirname ( __FILE__ ).'/bmlt-cms-satellite-plugin.php' );
 
 class BMLTDrupalPlugin extends BMLTPlugin
 {
-/************************************************************************//**
-*                               LOCALIZABLE STRINGS                         *
-****************************************************************************/
-
-
+    /************************************************************************//**
+    *                               LOCALIZABLE STRINGS                         *
+    ****************************************************************************/
     var $local_strings = array ( 'en' => array (
                                     'list_text' => 'Substitute &quot;&lt;!--BMLT--&gt;&quot; with an instance of the BMLT',
                                     'add_instance' => 'Add a BMLT instance inline in text.',
@@ -70,6 +68,7 @@ class BMLTDrupalPlugin extends BMLTPlugin
     ****************************************************************************************/
     protected function get_admin_ajax_base_uri()
         {
+        return $this->get_ajax_base_uri();
         }
     
     /************************************************************************************//**
@@ -79,6 +78,7 @@ class BMLTDrupalPlugin extends BMLTPlugin
     ****************************************************************************************/
     protected function get_admin_form_uri()
         {
+        return $this->get_ajax_base_uri();
         }
     
     /************************************************************************************//**
@@ -88,7 +88,7 @@ class BMLTDrupalPlugin extends BMLTPlugin
     ****************************************************************************************/
     protected function get_ajax_base_uri()
         {
-        return $_SERVER['PHP_SELF'];
+        return $_SERVER['PHP_SELF'].'?dummy';
         }
     
     /************************************************************************************//**
@@ -98,9 +98,9 @@ class BMLTDrupalPlugin extends BMLTPlugin
     ****************************************************************************************/
     protected function get_plugin_path()
         {
-        return drupal_get_path ( 'module', 'mymodule' );
+        $ret = drupal_get_path ( 'module', 'bmlt' ).'/';
+        return $ret;
         }
-
     
     /************************************************************************************//**
     *   \brief This uses the Drupal text processor (t) to process the given string.         *
@@ -110,7 +110,7 @@ class BMLTDrupalPlugin extends BMLTPlugin
     *                                                                                       *
     *   \returns a string, processed by WP.                                                 *
     ****************************************************************************************/
-    static function process_text (  $in_string  ///< The string to be processed.
+    function process_text (  $in_string  ///< The string to be processed.
                                     )
         {
         if ( function_exists ( 't' ) )
@@ -136,8 +136,9 @@ class BMLTDrupalPlugin extends BMLTPlugin
         $ret = null;
         $row_data = null;
 
-	    $row = variable_get ( 'bmlt_settings', $BMLTOptions );
-        $defaults = array ( $this->geDefaultBMLTOptions() );
+        $default_var = serialize ( array ( 0 => $this->geDefaultBMLTOptions() ) );
+        
+        $row = variable_get ( 'bmlt_settings', $default_var );
 
         $row = unserialize ( $row );
         
@@ -149,7 +150,7 @@ class BMLTDrupalPlugin extends BMLTPlugin
             }
         else
             {
-            $ret = array ( 'num_servers' => count ( $data_array ) );
+            $ret = array ( 'num_servers' => count ( $row ) );
             }
         
         return $ret;
@@ -164,7 +165,8 @@ class BMLTDrupalPlugin extends BMLTPlugin
         {
         $ret = false;
         
-        $row = variable_get ( 'bmlt_settings' );
+        $default_var = serialize ( array ( 0 => $this->geDefaultBMLTOptions() ) );
+        $row = variable_get ( 'bmlt_settings', $default_var );
 
         $index = 0;
         if ( $in_option_key != self::$admin2OptionsName )
@@ -200,7 +202,8 @@ class BMLTDrupalPlugin extends BMLTPlugin
         {
         $ret = false;
         
-        $row = variable_get ( 'bmlt_settings' );
+        $default_var = serialize ( array ( 0 => $this->geDefaultBMLTOptions() ) );
+        $row = variable_get ( 'bmlt_settings', $default_var );
 
         $data_array = array ( $this->geDefaultBMLTOptions() );
 
@@ -257,54 +260,9 @@ class BMLTDrupalPlugin extends BMLTPlugin
                                                  $in_check_mobile = false   ///< True if this includes a check for mobile. Default is false.
                                                 )
         {
-        $my_option_id = null;
-        $page_id = null;
-        $page = get_page($page_id);
-        
-        if ( !$in_check_mobile && isset ( $this->my_http_vars['bmlt_settings_id'] ) && is_array ($this->getBMLTOptions ( $this->my_http_vars['bmlt_settings_id'] )) )
-            {
-            $my_option_id = $this->my_http_vars['bmlt_settings_id'];
-            }
-        else
-            {
-            $support_mobile = preg_replace ( '/\D/', '', trim ( $this->cms_get_post_meta ( $page->ID, 'bmlt_mobile' ) ) );
-            
-            if ( !$support_mobile && $in_check_mobile )
-                {
-                $support_mobile = self::get_shortcode ( $in_content, 'bmlt_mobile');
-                
-                if ( $support_mobile === true )
-                    {
-                    $options = $this->getBMLTOptions ( 1 );
-                    $support_mobile = strval ( $options['id'] );
-                    }
-                }
-
-            if ( $in_check_mobile && $support_mobile && !isset ( $this->my_http_vars['BMLTPlugin_mobile'] ) && (self::mobile_sniff_ua ($this->my_http_vars) != 'xhtml') )
-                {
-                $my_option_id = $support_mobile;
-                }
-            elseif ( !$in_check_mobile )
-                {
-                $my_option_id = intval ( preg_replace ( '/\D/', '', trim ( $this->cms_get_post_meta ( $page->ID, 'bmlt_settings_id' ) ) ) );
-                if ( isset ( $this->my_http_vars['bmlt_settings_id'] ) && intval ( $this->my_http_vars['bmlt_settings_id'] ) )
-                    {
-                    $my_option_id = intval ( $this->my_http_vars['bmlt_settings_id'] );
-                    }
-                elseif ( $in_content = $in_content ? $in_content : $page->post_content )
-                    {
-                    $my_option_id_content = parent::cms_get_page_settings_id ( $in_content, $in_check_mobile );
+        $my_option_id_content = parent::cms_get_page_settings_id ( $in_content, $in_check_mobile );
                     
-                    $my_option_id = $my_option_id_content ? $my_option_id_content : $my_option_id;
-                    }
-                
-                if ( !$my_option_id )   // If nothing else gives, we go for the default (first) settings.
-                    {
-                    $options = $this->getBMLTOptions ( 1 );
-                    $my_option_id = $options['id'];
-                    }
-                }
-            }
+        $my_option_id = $my_option_id_content ? $my_option_id_content : $my_option_id;
         
         return $my_option_id;
         }
@@ -461,11 +419,11 @@ class BMLTDrupalPlugin extends BMLTPlugin
             
             if ( $additional_css )
                 {
-		        drupal_set_html_head ( '<style type="text/css">'.preg_replace ( "|\s+|", " ", $additional_css ).'</style>' );
+                drupal_set_html_head ( '<style type="text/css">'.preg_replace ( "|\s+|", " ", $additional_css ).'</style>' );
                 }
             }
         
-        $head_content .= '<script type="text/javascript" src="';
+        $head_content = '<script type="text/javascript" src="';
         
         $head_content .= htmlspecialchars ( $url );
         
@@ -476,7 +434,7 @@ class BMLTDrupalPlugin extends BMLTPlugin
         
         $head_content .= 'javascript.js"></script>';
 
-        echo $head_content;
+        drupal_set_html_head ( $head_content );
         }
         
     /************************************************************************************//**
@@ -484,42 +442,45 @@ class BMLTDrupalPlugin extends BMLTPlugin
     ****************************************************************************************/
     function admin_head ( )
         {
-        $this->standard_head ( );   // We start with the standard stuff.
+        $head_content = "<!-- Added by the BMLT plugin 2.0. -->\n<meta http-equiv=\"X-UA-Compatible\" content=\"IE=EmulateIE7\" />\n<meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />\n<meta http-equiv=\"Content-Script-Type\" content=\"text/javascript\" />\n";
+        $head_content .= '<script type="text/javascript" src="';
         
-        $head_content = '<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>';  // Load the Google Maps stuff for our map.
+        $url = $this->get_plugin_path();
         
-        if ( function_exists ( 'plugins_url' ) )
+        $head_content .= htmlspecialchars ( $url );
+        
+        if ( !defined ('_DEBUG_MODE_' ) )
             {
-            $head_content .= '<link rel="stylesheet" type="text/css" href="';
-            
-            $url = $this->get_plugin_path();
-            
-            $head_content .= htmlspecialchars ( $url );
-            
-            if ( !defined ('_DEBUG_MODE_' ) )
-                {
-                $head_content .= 'style_stripper.php?filename=';
-                }
-            
-            $head_content .= 'admin_styles.css" />';
-            
-            $head_content .= '<script type="text/javascript" src="';
-            
-            $head_content .= htmlspecialchars ( $url );
-            
-            if ( !defined ('_DEBUG_MODE_' ) )
-                {
-                $head_content .= 'js_stripper.php?filename=';
-                }
-            
-            $head_content .= 'admin_javascript.js"></script>';
+            $head_content .= 'js_stripper.php?filename=';
             }
-        else
+        
+        $head_content .= 'javascript.js"></script>';
+        
+        $head_content .= '<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>';  // Load the Google Maps stuff for our map.
+        
+        $head_content .= '<link rel="stylesheet" type="text/css" href="';
+        
+        $head_content .= htmlspecialchars ( $url );
+        
+        if ( !defined ('_DEBUG_MODE_' ) )
             {
-            echo "<!-- BMLTPlugin ERROR (head)! No plugins_url()! -->";
+            $head_content .= 'style_stripper.php?filename=';
             }
+        
+        $head_content .= 'admin_styles.css" />';
+        
+        $head_content .= '<script type="text/javascript" src="';
+        
+        $head_content .= htmlspecialchars ( $url );
+        
+        if ( !defined ('_DEBUG_MODE_' ) )
+            {
+            $head_content .= 'js_stripper.php?filename=';
+            }
+        
+        $head_content .= 'admin_javascript.js"></script>';
             
-        echo $head_content;
+        drupal_set_html_head ( $head_content );
         }
     
     /************************************************************************************//**
@@ -555,4 +516,3 @@ if ( !isset ( $BMLTPluginOp ) && class_exists ( "BMLTDrupalPlugin" ) )
     {
     $BMLTPluginOp = new BMLTDrupalPlugin();
     }
-?>
