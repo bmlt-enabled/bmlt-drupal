@@ -68,7 +68,7 @@ class BMLTDrupalPlugin extends BMLTPlugin
     ****************************************************************************************/
     protected function get_admin_ajax_base_uri()
         {
-        return $this->get_ajax_base_uri();
+        return $_SERVER['PHP_SELF'].'?q=admin/settings/bmlt';
         }
     
     /************************************************************************************//**
@@ -78,7 +78,7 @@ class BMLTDrupalPlugin extends BMLTPlugin
     ****************************************************************************************/
     protected function get_admin_form_uri()
         {
-        return $this->get_ajax_base_uri();
+        return $this->get_admin_ajax_base_uri();
         }
     
     /************************************************************************************//**

@@ -1350,6 +1350,7 @@ class BMLTPlugin
     ****************************************************************************************/
     function admin_ajax_handler ( )
         {
+ //echo ( '<pre>'.htmlspecialchars(print_r($this->my_http_vars,true)).'</pre>' );            
         // We only go here if we are in an AJAX call (This function dies out the session).
         if ( isset ( $this->my_http_vars['BMLTPlugin_Save_Settings_AJAX_Call'] ) )
             {
@@ -1511,7 +1512,6 @@ class BMLTPlugin
         elseif ( isset ( $this->my_http_vars['BMLTPlugin_AJAX_Call'] ) || isset ( $this->my_http_vars['BMLTPlugin_Fetch_Langs_AJAX_Call'] ) )
             {
             $ret = '';
-            
             if ( isset ( $this->my_http_vars['BMLTPlugin_AJAX_Call_Check_Root_URI'] ) )
                 {
                 $uri = trim ( $this->my_http_vars['BMLTPlugin_AJAX_Call_Check_Root_URI'] );
@@ -1548,7 +1548,7 @@ class BMLTPlugin
             die ( $ret );
             }
         }
-       
+      
     /************************************************************************************//**
     *   \brief Handles some AJAX routes                                                     *
     *                                                                                       *

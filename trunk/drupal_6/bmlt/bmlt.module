@@ -49,6 +49,7 @@ function bmlt_menu ( )
 function bmlt_admin_form ( )
 	{
     global $BMLTPluginOp;
+    $BMLTPluginOp->admin_ajax_handler();
     $BMLTPluginOp->admin_head();
     return $BMLTPluginOp->return_admin_page();
 	}
@@ -60,15 +61,8 @@ function bmlt_admin_form ( )
 function bmlt_boot ( )
 	{
     global $BMLTPluginOp;
-
-    if ( $BMLTPluginOp->my_http_vars['q'] == 'admin' )
-        {
-        $BMLTPluginOp->admin_ajax_handler();
-        }
-    else
-        {
-        $BMLTPluginOp->ajax_router();
-        }
+    
+    $BMLTPluginOp->ajax_router();
 	}
 
 /***********************************************/
