@@ -98,7 +98,7 @@ function bmlt_filter (	$op = 'list',
 		break;
 		
 		case 'process':
-		    $text = $BMLTOptions->content_filter($text);
+		    $text = $BMLTPluginOp->content_filter($text);
 		break;
 		}
 	

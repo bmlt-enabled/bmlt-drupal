@@ -306,9 +306,8 @@ class BMLTDrupalPlugin extends BMLTPlugin
     function standard_head ( $in_text = null   ///< This is the page content text.
                             )
         {
-        $load_head = false;   // This is a throwback. It prevents the GM JS from being loaded if there is no directly specified settings ID.
-        $head_content = "<!-- Added by the BMLT plugin 2.0. -->\n<meta http-equiv=\"X-UA-Compatible\" content=\"IE=EmulateIE7\" />\n<meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />\n<meta http-equiv=\"Content-Script-Type\" content=\"text/javascript\" />\n";
         $load_head = true;
+        $head_content = "<!-- Added by the BMLT plugin 2.0. -->\n<meta http-equiv=\"X-UA-Compatible\" content=\"IE=EmulateIE7\" />\n<meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />\n<meta http-equiv=\"Content-Script-Type\" content=\"text/javascript\" />\n";
         
         $support_mobile = $this->cms_get_page_settings_id ( $in_text, true );
         
@@ -343,7 +342,7 @@ class BMLTDrupalPlugin extends BMLTPlugin
             {
             $load_head = false;
             }
-        
+
         $this->my_http_vars['gmap_key'] = $options['gmaps_api_key'];
         
         $this->my_http_vars['start_view'] = $options['bmlt_initial_view'];
@@ -358,7 +357,7 @@ class BMLTDrupalPlugin extends BMLTPlugin
             
             if ( $load_head )
                 {
-                $head_content .= bmlt_satellite_controller::call_curl ( "$root_server?switcher=GetHeaderXHTML&style_only".$this->my_params );
+                $header_code .= bmlt_satellite_controller::call_curl ( "$root_server?switcher=GetHeaderXHTML&style_only".$this->my_params );
                 $styles = explode ( " ", $header_code );
                 foreach ( $styles as $uri2 )
                     {
@@ -368,14 +367,12 @@ class BMLTDrupalPlugin extends BMLTPlugin
                         $media = 'print';
                         }
                     
-                    $root_server_root2 = $root_server_root;
-                    
-                    if ( preg_match ( '|http://|', $uri2 ) )
+                    if ( !preg_match ( '|http://|', $uri2 ) )
                         {
-                        $root_server_root2 = '';
+                        $uri2 = $root_server_root.$uri2;
                         }
                     
-                    $attr['href'] = "$root_server_root2$uri2";
+                    $attr['href'] = $uri2;
                     $attr['rel'] = 'stylesheet';
                     $attr['type'] = 'text/css';
                     $attr['media'] = $media;
@@ -385,14 +382,14 @@ class BMLTDrupalPlugin extends BMLTPlugin
             
             $url = $this->get_plugin_path();
             
-            $url .= htmlspecialchars ( $url.'themes/'.$options['theme'].'/' );
+            $url .= 'themes/'.$options['theme'].'/';
             
             if ( !defined ('_DEBUG_MODE_' ) )
                 {
                 $url .= 'style_stripper.php?filename=';
                 }
             
-            $url .= 'styles.css" />';
+            $url .= 'styles.css';
     
             $attr['href'] = $url;
             $attr['rel'] = 'stylesheet';
@@ -415,20 +412,39 @@ class BMLTDrupalPlugin extends BMLTPlugin
                 {
                 drupal_set_html_head ( '<style type="text/css">'.preg_replace ( "|\s+|", " ", $additional_css ).'</style>' );
                 }
+
+            try
+                {
+                $uri = "$root_server?switcher=GetHeaderXHTML&script_only$params";
+                $header_code = bmlt_satellite_controller::call_curl ( $uri, false );
+        
+                $scripts = explode ( " ", $header_code );
+                foreach ( $scripts as $uri2 )
+                    {
+                    if ( !preg_match ( '|http://|', $uri2 ) )
+                        {
+                        $uri2 = $root_server_root.$uri2;
+                        }
+                    drupal_add_js ( $uri2 );
+                    }
+                }
+            catch ( Exception $e )
+                {
+                }
             }
         
-        $head_content = '<script type="text/javascript" src="';
+        drupal_add_js ( "http://maps.google.com/maps?file=api&amp;v=2&amp;key=".$options['gmaps_api_key'] );
         
-        $head_content .= htmlspecialchars ( $url );
+        $url = $this->get_plugin_path();
         
         if ( !defined ('_DEBUG_MODE_' ) )
             {
-            $head_content .= 'js_stripper.php?filename=';
+            $url .= 'js_stripper.php?filename=';
             }
         
-        $head_content .= 'javascript.js"></script>';
+        $url .= 'javascript.js';
 
-        drupal_set_html_head ( $head_content );
+        drupal_add_js ( $url );
         }
         
     /************************************************************************************//**

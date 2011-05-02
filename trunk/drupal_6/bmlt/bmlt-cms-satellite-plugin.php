@@ -692,7 +692,6 @@ class BMLTPlugin
                             )
         {
         $ret = false;
-// die ( '<pre>'.htmlspecialchars(print_r($in_option_number,true)).'</pre>' );            
         
         if ( ($in_option_number == null) || (intval($in_option_number) < 1) || (intval($in_option_number) > ($this->get_num_options ( ) + 1)) )
             {
@@ -2957,7 +2956,11 @@ class BMLTPlugin
                                                  $in_check_mobile = false   ///< True if this includes a check for mobile. Default is false.
                                                 )
         {
-        $my_option_id = null;
+        $options = $this->getBMLTOptions ( 1 );
+        if ( !$in_check_mobile )
+            {
+            $my_option_id = strval ( $options['id'] );
+            }
         
         if ( $in_content )  // The default version requires content.
             {
