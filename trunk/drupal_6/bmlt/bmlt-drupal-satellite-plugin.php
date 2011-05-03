@@ -423,7 +423,7 @@ class BMLTDrupalPlugin extends BMLTPlugin
             $attr['type'] = 'text/css';
             drupal_add_link ( $attr );
             
-            $additional_css = '';
+            $additional_css = '.bmlt_container * {margin:0;padding:0 } table#bmlt_container div.c_comdef_search_results_map_container_div { position:static; width:100%; height:640px}';
             
             if ( $options['push_down_more_details'] )
                 {
