@@ -3,7 +3,7 @@
 *   \file   bmlt-drupal-satellite-plugin.php                                                *
 *                                                                                           *
 *   \brief  This is a Drupal plugin of a BMLT satellite client.                             *
-*   \version 2.1.8                                                                          *
+*   \version 2.1.9                                                                          *
 *                                                                                           *
     This file is part of the Basic Meeting List Toolbox (BMLT).
     
@@ -255,11 +255,11 @@ class BMLTDrupalPlugin extends BMLTPlugin
     *                                                                                       *
     *   \returns a mixed type, with the settings ID.                                        *
     ****************************************************************************************/
-    protected function cms_get_page_settings_id ($in_content,               ///< Required (for the base version) content to check.
+    protected function cms_get_page_settings_id ($in_text,                  ///< Required (for the base version) content to check.
                                                  $in_check_mobile = false   ///< True if this includes a check for mobile. Default is false.
                                                 )
         {
-        $my_option_id_content = parent::cms_get_page_settings_id ( $in_content, $in_check_mobile );
+        $my_option_id_content = parent::cms_get_page_settings_id ( $in_text, $in_check_mobile );
                     
         $my_option_id = $my_option_id_content ? $my_option_id_content : $my_option_id;
         
@@ -321,7 +321,7 @@ class BMLTDrupalPlugin extends BMLTPlugin
             $support_mobile = null;
             }
         
-        $options = $this->getBMLTOptions_by_id ( $this->cms_get_page_settings_id($in_content) );
+        $options = $this->getBMLTOptions_by_id ( $this->cms_get_page_settings_id($in_text) );
 
         if ( $support_mobile && is_array ( $mobile_options ) && count ( $mobile_options ) )
             {
