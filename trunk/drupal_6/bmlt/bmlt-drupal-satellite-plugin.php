@@ -423,11 +423,11 @@ class BMLTDrupalPlugin extends BMLTPlugin
             $attr['type'] = 'text/css';
             drupal_add_link ( $attr );
             
-            $additional_css = '.bmlt_container * {margin:0;padding:0 } table#bmlt_container div.c_comdef_search_results_map_container_div { position:static; width:100%; height:640px}';
+            $additional_css = '.bmlt_container * {margin:0;padding:0 } table#bmlt_container div.c_comdef_search_results_map_container_div { margin:0;padding:0;position:static; width:100%; height:640px}';
             
             if ( $options['push_down_more_details'] )
                 {
-                $additional_css .= 'table#bmlt_container div.c_comdef_search_results_single_ajax_div{position:static;margin:0;width:100%;}';
+                $additional_css .= 'table#bmlt_container div.c_comdef_search_results_single_div div.embedded_map_div, table#bmlt_container div.c_comdef_search_results_single_div, table#bmlt_container div.c_comdef_search_results_single_ajax_div{position:static;margin:0;width:100%;}';
                 $additional_css .= 'table#bmlt_container div.c_comdef_search_results_single_close_box_div{position:relative;left:100%;margin-left:-18px;}';
                 $additional_css .= 'table#bmlt_container div#bmlt_contact_us_form_div{position:static;width:100%;margin:0;}';
                 }
