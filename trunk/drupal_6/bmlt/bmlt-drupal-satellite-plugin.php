@@ -307,7 +307,8 @@ class BMLTDrupalPlugin extends BMLTPlugin
                             )
         {
         $load_head = true;
-        $head_content = "<!-- Added by the BMLT plugin 2.0. -->\n<meta http-equiv=\"X-UA-Compatible\" content=\"IE=EmulateIE7\" />\n<meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />\n<meta http-equiv=\"Content-Script-Type\" content=\"text/javascript\" />\n";
+
+        $additional_stuff = '';
         
         $support_mobile = $this->cms_get_page_settings_id ( $in_text, true );
         
@@ -357,7 +358,33 @@ class BMLTDrupalPlugin extends BMLTPlugin
             
             if ( $load_head )
                 {
-                $header_code .= bmlt_satellite_controller::call_curl ( "$root_server?switcher=GetHeaderXHTML&style_only".$this->my_params );
+                $uri = "$root_server?switcher=GetHeaderXHTML&script_only".$this->my_params;
+                $header_code = bmlt_satellite_controller::call_curl ( $uri, false );
+        
+                $scripts = explode ( " ", $header_code );
+                foreach ( $scripts as $uri2 )
+                    {
+                    if ( !preg_match ( '|http://|', $uri2 ) )
+                        {
+                        $uri2 = $root_server_root.$uri2;
+                        }
+                    // We have to do it this way, because Drupal messes with scripts. That messes with us.
+                    $additional_stuff .= '<script type="text/javascript" src="'.$uri2.'"></script>';
+                    }
+
+                $url = $this->get_plugin_path();
+                
+                if ( !defined ('_DEBUG_MODE_' ) )
+                    {
+                    $url .= 'js_stripper.php?filename=';
+                    }
+                
+                $url .= 'javascript.js';
+
+                $additional_stuff .= '<script type="text/javascript" src="'.$url.'"></script>';
+
+                $header_code = bmlt_satellite_controller::call_curl ( "$root_server?switcher=GetHeaderXHTML&style_only".$this->my_params );
+                
                 $styles = explode ( " ", $header_code );
                 foreach ( $styles as $uri2 )
                     {
@@ -396,6 +423,8 @@ class BMLTDrupalPlugin extends BMLTPlugin
             $attr['type'] = 'text/css';
             drupal_add_link ( $attr );
             
+            $additional_css = '';
+            
             if ( $options['push_down_more_details'] )
                 {
                 $additional_css .= 'table#bmlt_container div.c_comdef_search_results_single_ajax_div{position:static;margin:0;width:100%;}';
@@ -410,41 +439,14 @@ class BMLTDrupalPlugin extends BMLTPlugin
             
             if ( $additional_css )
                 {
-                drupal_set_html_head ( '<style type="text/css">'.preg_replace ( "|\s+|", " ", $additional_css ).'</style>' );
+                $additional_stuff .= '<style type="text/css">'.preg_replace ( "|\s+|", " ", $additional_css ).'</style>';
                 }
-
-            try
+            
+            if ( $additional_stuff )
                 {
-                $uri = "$root_server?switcher=GetHeaderXHTML&script_only$params";
-                $header_code = bmlt_satellite_controller::call_curl ( $uri, false );
-        
-                $scripts = explode ( " ", $header_code );
-                foreach ( $scripts as $uri2 )
-                    {
-                    if ( !preg_match ( '|http://|', $uri2 ) )
-                        {
-                        $uri2 = $root_server_root.$uri2;
-                        }
-                    drupal_add_js ( $uri2 );
-                    }
-                }
-            catch ( Exception $e )
-                {
+                drupal_set_html_head ( $additional_stuff );
                 }
             }
-        
-        drupal_add_js ( "http://maps.google.com/maps?file=api&amp;v=2&amp;key=".$options['gmaps_api_key'] );
-        
-        $url = $this->get_plugin_path();
-        
-        if ( !defined ('_DEBUG_MODE_' ) )
-            {
-            $url .= 'js_stripper.php?filename=';
-            }
-        
-        $url .= 'javascript.js';
-
-        drupal_add_js ( $url );
         }
         
     /************************************************************************************//**
