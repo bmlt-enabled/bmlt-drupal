@@ -322,7 +322,6 @@ class BMLTDrupalPlugin extends BMLTPlugin
             }
         
         $options = $this->getBMLTOptions_by_id ( $this->cms_get_page_settings_id($in_text) );
-
         if ( $support_mobile && is_array ( $mobile_options ) && count ( $mobile_options ) )
             {
             $mobile_url = $_SERVER['PHP_SELF'].'?BMLTPlugin_mobile&bmlt_settings_id='.$support_mobile;
@@ -417,13 +416,10 @@ class BMLTDrupalPlugin extends BMLTPlugin
                 }
             
             $url .= 'styles.css';
-    
-            $attr['href'] = $url;
-            $attr['rel'] = 'stylesheet';
-            $attr['type'] = 'text/css';
-            drupal_add_link ( $attr );
+
+            $additional_stuff .= '<link rel="stylesheet" type="text/css" href="'.htmlspecialchars ( $url ).'" />';
             
-            $additional_css = '.bmlt_container * {margin:0;padding:0 } table#bmlt_container div.c_comdef_search_results_map_container_div { margin:0;padding:0;position:static; width:100%; height:640px}';
+            $additional_css = '.bmlt_container * {margin:0;padding:0 }';
             
             if ( $options['push_down_more_details'] )
                 {
