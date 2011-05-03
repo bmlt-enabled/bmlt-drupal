@@ -259,9 +259,13 @@ class BMLTDrupalPlugin extends BMLTPlugin
                                                  $in_check_mobile = false   ///< True if this includes a check for mobile. Default is false.
                                                 )
         {
-        $my_option_id_content = parent::cms_get_page_settings_id ( $in_text, $in_check_mobile );
+        $my_option_id = parent::cms_get_page_settings_id ( $in_text, $in_check_mobile );
                     
-        $my_option_id = $my_option_id_content ? $my_option_id_content : $my_option_id;
+        if ( !$in_check_mobile && !$my_option_id )   // If nothing else gives, we go for the default (first) settings.
+            {
+            $options = $this->getBMLTOptions ( 1 );
+            $my_option_id = $options['id'];
+            }
         
         return $my_option_id;
         }
