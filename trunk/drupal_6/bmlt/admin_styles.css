@@ -44,6 +44,11 @@
     border-top:1px solid #6cf;
 }
 
+.BMLTPlugin_bottom_button_div
+{
+    display:inline;
+}
+
 .BMLTPlugin_toolbar_line_map
 {
     margin-top:0px;

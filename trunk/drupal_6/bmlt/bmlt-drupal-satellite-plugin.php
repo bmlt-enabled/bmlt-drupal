@@ -134,13 +134,8 @@ class BMLTDrupalPlugin extends BMLTPlugin
                                         )
         {        
         $ret = null;
-        $row_data = null;
-
-        $default_var = serialize ( array ( 0 => $this->geDefaultBMLTOptions() ) );
         
-        $row = variable_get ( 'bmlt_settings', $default_var );
-
-        $row = unserialize ( $row );
+        $row = unserialize ( variable_get ( 'bmlt_settings', serialize ( array ( 0 => $this->geDefaultBMLTOptions() ) ) ) );
         
         if ( $in_option_key != self::$admin2OptionsName )
             {
@@ -165,31 +160,28 @@ class BMLTDrupalPlugin extends BMLTPlugin
         {
         $ret = false;
 
-        $default_var = serialize ( array ( 0 => $this->geDefaultBMLTOptions() ) );
-        $row = variable_get ( 'bmlt_settings', $default_var );
-
         $index = 0;
+        
         if ( $in_option_key != self::$admin2OptionsName )
             {
             $index = max ( 1, intval(str_replace ( self::$adminOptionsName.'_', '', $in_option_key ) ));
-            }
 
-        $row_data = unserialize ( $row );
-        
-        if ( isset ( $row_data ) && is_array ( $row_data ) && count ( $row_data ) )
-            {
-            if ( $index )
+            $row_data = unserialize ( variable_get ( 'bmlt_settings', serialize ( array ( 0 => $this->geDefaultBMLTOptions() ) ) ) );
+            
+            if ( isset ( $row_data ) && is_array ( $row_data ) && count ( $row_data ) )
                 {
                 $row_data[$index - 1] = $in_option_value;
+                
+                variable_set ( 'bmlt_settings', serialize ( $row_data ) );
+    
+                $ret = true;
                 }
-
-            $row_data = serialize ( $row_data );
-            
-            variable_set ( 'bmlt_settings', $row_data );
-
-            $ret = true;
             }
-            
+        else
+            {
+            $ret = true; // Fake it, till you make it.
+            }
+        
         return $ret;
         }
     
@@ -201,21 +193,14 @@ class BMLTDrupalPlugin extends BMLTPlugin
         {
         $ret = false;
         
-        $default_var = serialize ( array ( 0 => $this->geDefaultBMLTOptions() ) );
-        $row = variable_get ( 'bmlt_settings', $default_var );
-
-        $data_array = array ( $this->geDefaultBMLTOptions() );
-
-        $row = unserialize ( $row );
+        $row = unserialize ( variable_get ( 'bmlt_settings', serialize ( array ( 0 => $this->geDefaultBMLTOptions() ) ) ) );
         if ( $in_option_key != self::$admin2OptionsName )
             {
             $index = max ( 1, intval(str_replace ( self::$adminOptionsName.'_', '', $in_option_key ) ));
             
-            unset ( $data_array[$index - 1] );
+            unset ( $row[$index - 1] );
             
-            $data_array = serialize ( $data_array );
-            
-            if ( variable_set ( 'bmlt_settings', $data_array ) )
+            if ( variable_set ( 'bmlt_settings', serialize ( $row ) ) )
                 {
                 $ret = true;
                 }
@@ -234,15 +219,6 @@ class BMLTDrupalPlugin extends BMLTPlugin
                                             )
         {
         $ret = null;
-        
-        if ( function_exists ( 'get_post_meta' ) )
-            {
-            $ret = get_post_meta ( $in_page_id, $in_settings_id, true );
-            }
-        else
-            {
-            echo "<!-- BMLTPlugin ERROR (cms_get_post_meta)! No get_post_meta()! -->";
-            }
         
         return $ret;
         }

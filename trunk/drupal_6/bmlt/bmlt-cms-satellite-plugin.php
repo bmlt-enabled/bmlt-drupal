@@ -1084,9 +1084,9 @@ class BMLTPlugin
                         $html .= '<input id="BMLTPlugin_toolbar_button_save" type="button" value="'.$this->process_text ( self::$local_options_save ).'" onclick="BMLTPlugin_SaveOptions()" />';
                     $html .= '</div>';
                     $html .= '</form>';
-                    $html .= '<form action ="'.$this->get_admin_form_uri().'" method="post">';
+                    $html .= '<form action ="'.$this->get_admin_form_uri().'" method="post"><div id="BMLTPlugin_bottom_button_div" class="BMLTPlugin_bottom_button_div">';
                     $html .= '<input type="submit" id="BMLTPlugin_toolbar_button_new" class="BMLTPlugin_create_button" name="BMLTPlugin_create_option" value="'.$this->process_text ( self::$local_options_add_new ).'" />';
-                    $html .= '</form>';
+                    $html .= '</div></form>';
                 $html .= '</div>';
                 $html .= '<div class="BMLTPlugin_toolbar_line_map">';
                     $html .= '<h2 class="BMLTPlugin_map_label_h2">'.$this->process_text ( self::$local_options_map_label ).'</h2>';
@@ -1824,8 +1824,6 @@ class BMLTPlugin
             else
                 {
                 $the_new_content = $this->process_text ( self::$local_not_enough_for_old_style );
-                
-                $the_new_content = '<pre>ID: '."$options_id\nOptions: ".htmlspecialchars ( print_r ( $options, true ) ).'</pre>';
 
                 $in_content = self::replace_shortcode ($in_content, 'bmlt', $the_new_content);
                 }
