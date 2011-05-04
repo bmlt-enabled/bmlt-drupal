@@ -1571,8 +1571,6 @@ class BMLTPlugin
             if ( isset ( $this->my_http_vars['BMLTPlugin_mobile'] ) )
                 {
                 $ret = $this->BMLTPlugin_fast_mobile_lookup ();
-    
-                $url = $this->get_plugin_path();
                 
                 ob_end_clean(); // Just in case we are in an OB
                 
@@ -2096,9 +2094,9 @@ class BMLTPlugin
         $ret = '<div class="search_intro" id="hidden_until_js" style="display:none">';
             $ret .= '<h1 class="banner_h1">'.$this->process_text ( self::$local_GPS_banner ).'</h1>';
             $ret .= '<h2 class="banner_h2">'.$this->process_text ( self::$local_GPS_banner_subtext ).'</h2>';
-            $ret .= '<div class="link_one_line"><a rel="nofollow" accesskey="1" href="'.htmlspecialchars ( $this->get_ajax_mobile_base_uri() ).'?BMLTPlugin_mobile&amp;do_search&amp;bmlt_settings_id='.$this->my_http_vars['bmlt_settings_id'].'">'.$this->process_text ( self::$local_search_all ).'</a></div>';
-            $ret .= '<div class="link_one_line"><a rel="nofollow" accesskey="2" href="'.htmlspecialchars ( $this->get_ajax_mobile_base_uri() ).'?BMLTPlugin_mobile&amp;do_search&amp;qualifier=today&amp;bmlt_settings_id='.$this->my_http_vars['bmlt_settings_id'].'">'.$this->process_text ( self::$local_search_today ).'</a></div>';
-            $ret .= '<div class="link_one_line"><a rel="nofollow" accesskey="3" href="'.htmlspecialchars ( $this->get_ajax_mobile_base_uri() ).'?BMLTPlugin_mobile&amp;do_search&amp;qualifier=tomorrow&amp;bmlt_settings_id='.$this->my_http_vars['bmlt_settings_id'].'">'.$this->process_text ( self::$local_search_tomorrow ).'</a></div>';
+            $ret .= '<div class="link_one_line"><a rel="nofollow" accesskey="1" href="'.htmlspecialchars ( $this->get_ajax_mobile_base_uri() ).'?BMLTPlugin_mobile&amp;do_search&amp;bmlt_settings_id='.$this->my_http_vars['bmlt_settings_id'].((isset ( $this->my_http_vars['base_url'] ) && $this->my_http_vars['base_url']) ? '&amp;base_url='.urlencode($this->my_http_vars['base_url']) : '').'">'.$this->process_text ( self::$local_search_all ).'</a></div>';
+            $ret .= '<div class="link_one_line"><a rel="nofollow" accesskey="2" href="'.htmlspecialchars ( $this->get_ajax_mobile_base_uri() ).'?BMLTPlugin_mobile&amp;do_search&amp;qualifier=today&amp;bmlt_settings_id='.$this->my_http_vars['bmlt_settings_id'].((isset ( $this->my_http_vars['base_url'] ) && $this->my_http_vars['base_url']) ? '&amp;base_url='.urlencode($this->my_http_vars['base_url']) : '').'">'.$this->process_text ( self::$local_search_today ).'</a></div>';
+            $ret .= '<div class="link_one_line"><a rel="nofollow" accesskey="3" href="'.htmlspecialchars ( $this->get_ajax_mobile_base_uri() ).'?BMLTPlugin_mobile&amp;do_search&amp;qualifier=tomorrow&amp;bmlt_settings_id='.$this->my_http_vars['bmlt_settings_id'].((isset ( $this->my_http_vars['base_url'] ) && $this->my_http_vars['base_url']) ? '&amp;base_url='.urlencode($this->my_http_vars['base_url']) : '').'">'.$this->process_text ( self::$local_search_tomorrow ).'</a></div>';
             $ret .= '<hr class="meeting_divider_hr" />';
         $ret .= '</div>';
         
@@ -2126,6 +2124,12 @@ class BMLTPlugin
             $ret .= '<div class="search_address">';
             // The default, is we return a list. This is changed by JavaScript.
             $ret .= '<input type="hidden" name="BMLTPlugin_mobile" />';
+            
+            if ( isset ( $this->my_http_vars['base_url'] ) && $this->my_http_vars['base_url'] )
+                {
+                $ret .= '<input type="hidden" name="base_url" value="'.htmlspecialchars($this->my_http_vars['base_url']).'" />';
+                }
+                
             $ret .= '<input type="hidden" name="bmlt_settings_id" value="'.$this->my_http_vars['bmlt_settings_id'].'" />';
             $ret .= '<input type="hidden" name="do_search" id="do_search" value="the hard way" />';
             $ret .= '<h1 class="banner_h2">'.$this->process_text ( self::$local_search_address_single ).'</h1>';
@@ -2234,6 +2238,10 @@ class BMLTPlugin
             $ret .= '<postfield name="do_search" value="the hard way" />';
             $ret .= '<postfield name="WML" value="1" />';
             $ret .= '<postfield name="BMLTPlugin_mobile" value="1" />';
+            if ( isset ( $this->my_http_vars['base_url'] ) && $this->my_http_vars['base_url'] )
+                {
+                $ret .= '<postfield type="hidden" name="base_url" value="'.htmlspecialchars($this->my_http_vars['base_url']).'" />';
+                }
             $ret .= '<postfield name="bmlt_settings_id" value="'.$this->my_http_vars['bmlt_settings_id'].'" />';
             $ret .= '</go>';
             $ret .= $this->process_text ( $local_search_submit_button );

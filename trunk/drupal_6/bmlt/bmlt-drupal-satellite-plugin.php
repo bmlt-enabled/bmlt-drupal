@@ -88,7 +88,7 @@ class BMLTDrupalPlugin extends BMLTPlugin
     ****************************************************************************************/
     protected function get_ajax_base_uri()
         {
-        return $_SERVER['PHP_SELF'].'?dummy';
+        return $_SERVER['PHP_SELF'];
         }
     
     /************************************************************************************//**
@@ -98,8 +98,16 @@ class BMLTDrupalPlugin extends BMLTPlugin
     ****************************************************************************************/
     protected function get_plugin_path()
         {
-        global $base_url;
-        $ret = $base_url.'/'.drupal_get_path ( 'module', 'bmlt' ).'/';
+        if ( function_exists ( 'drupal_get_path' ) )
+            {
+            global $base_url;
+            $ret = $base_url.'/'.drupal_get_path ( 'module', 'bmlt' ).'/';
+            }
+        else
+            {
+            $ret = $this->my_http_vars['base_url'];
+            }
+            
         return $ret;
         }
     
@@ -314,6 +322,16 @@ class BMLTDrupalPlugin extends BMLTPlugin
                 {
                 $mobile_url .= '&simulate_smartphone';
                 }
+            
+            if ( isset ( $this->my_http_vars['base_url'] ) )
+                {
+                $mobile_url .= '&base_url='.urlencode($this->my_http_vars['base_url']);
+                }
+            else
+                {
+                $mobile_url .= '&base_url='.urlencode($this->get_plugin_path());
+                }
+
             ob_end_clean();
             header ( "location: $mobile_url" );
             die ( );
