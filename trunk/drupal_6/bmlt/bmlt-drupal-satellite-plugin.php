@@ -98,7 +98,8 @@ class BMLTDrupalPlugin extends BMLTPlugin
     ****************************************************************************************/
     protected function get_plugin_path()
         {
-        $ret = drupal_get_path ( 'module', 'bmlt' ).'/';
+        global $base_url;
+        $ret = $base_url.'/'.drupal_get_path ( 'module', 'bmlt' ).'/';
         return $ret;
         }
     

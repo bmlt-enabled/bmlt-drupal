@@ -86,7 +86,7 @@ function bmlt_filter (	$op = 'list',
 		break;
 		
 		case 'no cache':
-			return TRUE;
+			return false;
 		break;
 		
 		case 'description':
@@ -104,20 +104,3 @@ function bmlt_filter (	$op = 'list',
 	
 	return $text;
     }
-
-/***********************************************/
-/**
-	\brief	This displays the actual BMLT content.
-*/
-function bmlt_block (	$op = 'list',
-						$delta = 0,
-						$edit = array(),
-						$is_filter = false
-					)
-	{
-    global $BMLTPluginOp;
-    
-    $BMLTPluginOp->standard_head();
-	$block['subject'] = $BMLTPluginOp->local_strings['en']['bmlt'];
-	$block['content'] = $BMLTPluginOp->content_filter('[[bmlt]]');
-	}

@@ -1092,24 +1092,24 @@ class BMLTPlugin
                 $html .= '<div class="BMLTPlugin_toolbar_line_map">';
                     $html .= '<h2 class="BMLTPlugin_map_label_h2">'.$this->process_text ( self::$local_options_map_label ).'</h2>';
                     $html .= '<div class="BMLTPlugin_Map_Div" id="BMLTPlugin_Map_Div"></div>';
-                    $html .= '<script type="text/javascript">';
-                        $html .= "BMLTPlugin_DirtifyOptionSheet(true);";    // This sets up the "Save Changes" button as disabled.
+                    $html .= '<script type="text/javascript">' . (defined ( '_DEBUG_MODE_' ) ? "\n" : '');
+                        $html .= "BMLTPlugin_DirtifyOptionSheet(true);" . (defined ( '_DEBUG_MODE_' ) ? "\n" : '');    // This sets up the "Save Changes" button as disabled.
                         // This is a trick I use to hide irrelevant content from non-JS browsers. The element is drawn, hidden, then uses JS to show. No JS, no element.
-                        $html .= "document.getElementById('BMLTPlugin_options_container').style.display='block';";
-                        $html .= "var c_g_BMLTPlugin_no_name = '".$this->process_text ( self::$local_options_no_name_string )."';";
-                        $html .= "var c_g_BMLTPlugin_no_root = '".$this->process_text ( self::$local_options_no_root_server_string )."';";
-                        $html .= "var c_g_BMLTPlugin_no_search = '".$this->process_text ( self::$local_options_no_new_search_string )."';";
+                        $html .= "document.getElementById('BMLTPlugin_options_container').style.display='block';" . (defined ( '_DEBUG_MODE_' ) ? "\n" : '');
+                        $html .= "var c_g_BMLTPlugin_no_name = '".$this->process_text ( self::$local_options_no_name_string )."';" . (defined ( '_DEBUG_MODE_' ) ? "\n" : '');
+                        $html .= "var c_g_BMLTPlugin_no_root = '".$this->process_text ( self::$local_options_no_root_server_string )."';" . (defined ( '_DEBUG_MODE_' ) ? "\n" : '');
+                        $html .= "var c_g_BMLTPlugin_no_search = '".$this->process_text ( self::$local_options_no_new_search_string )."';" . (defined ( '_DEBUG_MODE_' ) ? "\n" : '');
                         $html .= "var c_g_BMLTPlugin_root_canal = '".self::$local_options_url_bad."';";
-                        $html .= "var c_g_BMLTPlugin_success_message = '".$this->process_text ( self::$local_options_save_success )."';";
-                        $html .= "var c_g_BMLTPlugin_failure_message = '".$this->process_text ( self::$local_options_save_failure )."';";
-                        $html .= "var c_g_BMLTPlugin_success_time = ".intval ( self::$local_options_success_time ).";";
-                        $html .= "var c_g_BMLTPlugin_failure_time = ".intval ( self::$local_options_failure_time ).";";
-                        $html .= "var c_g_BMLTPlugin_unsaved_prompt = '".$this->process_text ( self::$local_options_unsaved_message )."';";
-                        $html .= "var c_g_BMLTPlugin_test_server_success = '".$this->process_text ( self::$local_options_test_server_success )."';";
-                        $html .= "var c_g_BMLTPlugin_test_server_failure = '".$this->process_text ( self::$local_options_test_server_failure )."';";
-                        $html .= "var c_g_BMLTPlugin_coords = new Array();";
-                        $html .= "var g_BMLTPlugin_TimeToFade = ".intval ( self::$local_options_success_time ).";";
-                        $html .= "var g_BMLTPlugin_no_gkey_string = '".$this->process_text ( self::$local_options_no_gkey_string)."';";
+                        $html .= "var c_g_BMLTPlugin_success_message = '".$this->process_text ( self::$local_options_save_success )."';" . (defined ( '_DEBUG_MODE_' ) ? "\n" : '');
+                        $html .= "var c_g_BMLTPlugin_failure_message = '".$this->process_text ( self::$local_options_save_failure )."';" . (defined ( '_DEBUG_MODE_' ) ? "\n" : '');
+                        $html .= "var c_g_BMLTPlugin_success_time = ".intval ( self::$local_options_success_time ).";" . (defined ( '_DEBUG_MODE_' ) ? "\n" : '');
+                        $html .= "var c_g_BMLTPlugin_failure_time = ".intval ( self::$local_options_failure_time ).";" . (defined ( '_DEBUG_MODE_' ) ? "\n" : '');
+                        $html .= "var c_g_BMLTPlugin_unsaved_prompt = '".$this->process_text ( self::$local_options_unsaved_message )."';" . (defined ( '_DEBUG_MODE_' ) ? "\n" : '');
+                        $html .= "var c_g_BMLTPlugin_test_server_success = '".$this->process_text ( self::$local_options_test_server_success )."';" . (defined ( '_DEBUG_MODE_' ) ? "\n" : '');
+                        $html .= "var c_g_BMLTPlugin_test_server_failure = '".$this->process_text ( self::$local_options_test_server_failure )."';" . (defined ( '_DEBUG_MODE_' ) ? "\n" : '');
+                        $html .= "var c_g_BMLTPlugin_coords = new Array();" . (defined ( '_DEBUG_MODE_' ) ? "\n" : '');
+                        $html .= "var g_BMLTPlugin_TimeToFade = ".intval ( self::$local_options_success_time ).";" . (defined ( '_DEBUG_MODE_' ) ? "\n" : '');
+                        $html .= "var g_BMLTPlugin_no_gkey_string = '".$this->process_text ( self::$local_options_no_gkey_string)."';" . (defined ( '_DEBUG_MODE_' ) ? "\n" : '');
                         if ( is_array ( $options_coords ) && count ( $options_coords ) )
                             {
                             foreach ( $options_coords as $value )
@@ -1134,8 +1134,8 @@ class BMLTPlugin
                             }
                         $url = $this->get_plugin_path();
                         $url = htmlspecialchars ( $url.'google_map_images' );
-                        $html .= "var c_g_BMLTPlugin_admin_google_map_images = '$url';";
-                        $html .= 'BMLTPlugin_admin_load_map();';
+                        $html .= "var c_g_BMLTPlugin_admin_google_map_images = '$url';" . (defined ( '_DEBUG_MODE_' ) ? "\n" : '');
+                        $html .= 'BMLTPlugin_admin_load_map();' . (defined ( '_DEBUG_MODE_' ) ? "\n" : '');
                     $html .= '</script>';
                 $html .= '</div>';
             $html .= '</div>';
