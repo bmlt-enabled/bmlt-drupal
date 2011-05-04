@@ -68,7 +68,7 @@ function bmlt_boot ( )
 /***********************************************/
 /**
 	\brief	This displays the actual BMLT content if the
-			text has "<!--BMLT-->" in it.
+			text contains the BMLT shortcodes or HTML comments.
 */
 function bmlt_filter (	$op = 'list',
 						$delta = 0,

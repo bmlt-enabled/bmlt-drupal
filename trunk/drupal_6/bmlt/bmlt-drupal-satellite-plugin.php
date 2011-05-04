@@ -44,11 +44,11 @@ class BMLTDrupalPlugin extends BMLTPlugin
     *                               LOCALIZABLE STRINGS                         *
     ****************************************************************************/
     var $local_strings = array ( 'en' => array (
-                                    'list_text' => 'Substitute &quot;&lt;!--BMLT--&gt;&quot; with an instance of the BMLT',
+                                    'list_text' => 'Substitute the BMLT shortcodes or HTML comments with instances of the BMLT',
                                     'add_instance' => 'Add a BMLT instance inline in text.',
                                     'bmlt' =>'Basic Meeting List Toolbox',
                                     'bmlt_settings' => 'BMLT Settings',
-                                    'describe_admin' => 'Set the location and Google Maps API key for the BMLT plugin',
+                                    'describe_admin' => 'Configure the BMLT Settings',
                                     'access_admin' => 'access administration pages'
                                     )
                                 );
