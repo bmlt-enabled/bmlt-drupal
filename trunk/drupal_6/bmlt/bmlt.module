@@ -86,7 +86,7 @@ function bmlt_filter (	$op = 'list',
 		break;
 		
 		case 'no cache':
-			return false;
+			return true;
 		break;
 		
 		case 'description':

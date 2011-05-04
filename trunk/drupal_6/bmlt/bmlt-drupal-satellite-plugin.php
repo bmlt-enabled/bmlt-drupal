@@ -289,7 +289,7 @@ class BMLTDrupalPlugin extends BMLTPlugin
         {
         $load_head = true;
 
-        $additional_stuff = '';
+        $additional_stuff = "<!-- Added by the BMLT plugin 2.0. -->\n<meta http-equiv=\"X-UA-Compatible\" content=\"IE=EmulateIE7\" />\n<meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />\n<meta http-equiv=\"Content-Script-Type\" content=\"text/javascript\" />\n";
         
         $support_mobile = $this->cms_get_page_settings_id ( $in_text, true );
         
