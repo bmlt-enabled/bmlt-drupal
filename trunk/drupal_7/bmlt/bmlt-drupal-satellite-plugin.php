@@ -101,11 +101,12 @@ class BMLTDrupalPlugin extends BMLTPlugin
         if ( function_exists ( 'drupal_get_path' ) )
             {
             global $base_url;
+
             $ret = $base_url.'/'.drupal_get_path ( 'module', 'bmlt' ).'/';
             }
         else
             {
-            $ret = $this->my_http_vars['base_url'];
+            $ret = isset ( $this->my_http_vars['base_url'] ) ? $this->my_http_vars['base_url'] : null;
             }
             
         return $ret;
@@ -445,7 +446,11 @@ class BMLTDrupalPlugin extends BMLTPlugin
                     }
                 elseif ( function_exists ( 'drupal_add_html_head' ) )
                     {
-                    drupal_add_html_head ( $additional_stuff );
+                    $element = array(
+                                    '#type' => 'markup',
+                                    '#markup' => $additional_stuff
+                                    );
+                    drupal_add_html_head ( $element, 'bmlt_admin' );
                     }
                 }
             }
@@ -500,7 +505,11 @@ class BMLTDrupalPlugin extends BMLTPlugin
             }
         elseif ( function_exists ( 'drupal_add_html_head' ) )
             {
-            drupal_add_html_head ( $head_content );
+            $element = array(
+                            '#type' => 'markup',
+                            '#markup' => $head_content
+                            );
+            drupal_add_html_head ( $element, 'bmlt_admin' );
             }
         }
 };

@@ -61,7 +61,7 @@ function bmlt_admin_form ( )
 function bmlt_boot ( )
 	{
     global $BMLTPluginOp;
-    
+
     $BMLTPluginOp->ajax_router();
 	}
 
