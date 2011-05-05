@@ -440,13 +440,17 @@ class BMLTPlugin
             {
             if ( ($key != 'lang_enum') && isset ( $in_array['direct_simple'] ) || (!isset ( $in_array['direct_simple'] ) && $key != 'switcher') )    // We don't propagate switcher or the language.
                 {
-                if ( is_array ( $value ) )
+                if ( isset ( $value ) && is_array ( $value ) && count ( $value ) )
                     {
                     foreach ( $value as $val )
                         {
-                        if ( is_array ( $val ) )
+                        if ( isset ( $val ) &&  is_array ( $val ) && count ( $val ) )
                             {
-                            $val = join ( ',', $val );
+                            $val = implode ( ',', $val );
+                            }
+                        else
+                            {
+                            $val = '';
                             }
                         $my_params .= '&'.urlencode ( $key ) ."[]=". urlencode ( $val );
                         }
@@ -499,7 +503,7 @@ class BMLTPlugin
         
         if ( preg_match ( '#'.$code_regex_html.'#i', $in_text_to_parse, $matches ) || preg_match ( '#'.$code_regex_brackets.'#i', $in_text_to_parse, $matches ) )
             {
-            if ( !($ret = trim ( $matches[1], '()' )) ) // See if we have any parameters.
+            if ( !isset ( $matches[1] ) || !($ret = trim ( $matches[1], '()' )) ) // See if we have any parameters.
                 {
                 $ret = true;
                 }

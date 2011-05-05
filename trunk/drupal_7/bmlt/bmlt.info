@@ -2,3 +2,4 @@
 name = BMLT
 description = This is a satellite client for a BMLT root server.
 core = 7.x
+files[] = bmlt.module

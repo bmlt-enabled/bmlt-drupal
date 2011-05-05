@@ -67,6 +67,52 @@ function bmlt_boot ( )
 
 /***********************************************/
 /**
+	\brief	This tells Drupal 7 about our filter.
+*/
+function bmlt_filter_info ()
+    {
+    global $BMLTPluginOp;
+    $ret = null;
+    
+    if ( isset ( $BMLTPluginOp ) )
+        {
+        $ret['bmlt'] = array (  'title' => $BMLTPluginOp->process_text ( $BMLTPluginOp->local_strings['en']['add_instance'] ),
+                                'prepare callback' => 'bmlt_filter_prepare',
+                                'process callback' => 'bmlt_filter_process'
+                                );
+        }
+    
+    return $ret;
+    }
+
+/***********************************************/
+/**
+	\brief	
+*/
+function bmlt_filter_prepare(   $in_text,
+                                $in_filter = null
+                                )
+{
+    global $BMLTPluginOp;
+    
+    $BMLTPluginOp->standard_head ( $in_text );
+}
+
+/***********************************************/
+/**
+	\brief	
+*/
+function bmlt_filter_process(   $in_text,
+                                $in_filter = null
+                                )
+{
+    global $BMLTPluginOp;
+    
+    return $BMLTPluginOp->content_filter ( $in_text );
+}
+
+/***********************************************/
+/**
 	\brief	This displays the actual BMLT content if the
 			text contains the BMLT shortcodes or HTML comments.
 */
@@ -94,11 +140,11 @@ function bmlt_filter (	$op = 'list',
 		break;
         
 		case 'prepare':
-            $BMLTPluginOp->standard_head($text);
+            bmlt_filter_prepare ( $text );
 		break;
 		
 		case 'process':
-		    $text = $BMLTPluginOp->content_filter($text);
+		    $text = bmlt_filter_process ( $text );
 		break;
 		}
 	
