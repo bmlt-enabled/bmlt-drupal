@@ -1588,6 +1588,11 @@ class BMLTPlugin
                 }
             else
                 {
+                if ( !isset ( $this->my_http_vars['bmlt_settings_id'] ) )
+                    {
+                    $this->my_http_vars['bmlt_settings_id'] = null; // Just to squash a warning.
+                    }
+                    
                 $options = $this->getBMLTOptions_by_id ( $this->my_http_vars['bmlt_settings_id'] );
                 
                 $this->load_params ( );

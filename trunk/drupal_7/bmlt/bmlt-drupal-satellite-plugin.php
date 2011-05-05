@@ -439,7 +439,14 @@ class BMLTDrupalPlugin extends BMLTPlugin
             
             if ( $additional_stuff )
                 {
-                drupal_set_html_head ( $additional_stuff );
+                if ( function_exists ( 'drupal_set_html_head' ) )
+                    {
+                    drupal_set_html_head ( $additional_stuff );
+                    }
+                elseif ( function_exists ( 'drupal_add_html_head' ) )
+                    {
+                    drupal_add_html_head ( $additional_stuff );
+                    }
                 }
             }
         }
@@ -486,8 +493,15 @@ class BMLTDrupalPlugin extends BMLTPlugin
             }
         
         $head_content .= 'admin_javascript.js"></script>';
-            
-        drupal_set_html_head ( $head_content );
+        
+        if ( function_exists ( 'drupal_set_html_head' ) )
+            {
+            drupal_set_html_head ( $head_content );
+            }
+        elseif ( function_exists ( 'drupal_add_html_head' ) )
+            {
+            drupal_add_html_head ( $head_content );
+            }
         }
 };
 
