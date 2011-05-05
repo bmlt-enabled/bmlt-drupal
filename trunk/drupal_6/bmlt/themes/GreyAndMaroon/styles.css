@@ -37,6 +37,24 @@ table#bmlt_container .c_comdef_search_specification_map_div
     border:none;
 }
 
+table#bmlt_container table.comdef_list_results_container,
+table#bmlt_container table.c_comdef_search_results_table
+{
+    margin:0;
+}
+
+table#bmlt_container tr.c_comdef_search_results_header_row td a,
+table#bmlt_container tr.c_comdef_search_results_header_row td a:visited
+{
+    color:#99f;
+}
+
+table#bmlt_container tr.c_comdef_search_results_header_row td a:hover,
+table#bmlt_container tr.c_comdef_search_results_header_row td a:active
+{
+    color:#f96;
+}
+
 table#bmlt_container .c_comdef_search_specification_form_container_div *,
 table#bmlt_container div.c_comdef_search_results_single_div *,
 table#bmlt_container .marker_info_window_div,
