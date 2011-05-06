@@ -1228,7 +1228,7 @@ class BMLTPlugin
                         $ret .= '</select>';
                     $ret .= '</div>';
                     }
-                $ret .= '<div class="BMLTPlugin_option_sheet_line_div">';
+                $ret .= '<div class="BMLTPlugin_option_sheet_line_div BMLTPlugin_additional_css_line">';
                     $id = 'BMLTPlugin_option_sheet_additional_css_'.$in_options_index;
                     $ret .= '<label for="'.htmlspecialchars ( $id ).'">'.$this->process_text ( self::$local_options_more_styles_label ).'</label>';
                     $ret .= '<textarea class="BMLTPlugin_option_sheet_additional_css_textarea" id="'.htmlspecialchars ( $id ).'" onchange="BMLTPlugin_DirtifyOptionSheet()">';
