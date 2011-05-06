@@ -126,7 +126,7 @@ function bmlt_filter_info ()
 	\brief	
 */
 function _bmlt_prepare ($in_text,
-                        $in_filter
+                        $in_filter = null
                         )
 {
     global $BMLTPluginOp;
@@ -141,7 +141,7 @@ function _bmlt_prepare ($in_text,
 	\brief	
 */
 function _bmlt_process ($in_text,
-                        $in_filter
+                        $in_filter = null
                         )
 {
     global $BMLTPluginOp;
