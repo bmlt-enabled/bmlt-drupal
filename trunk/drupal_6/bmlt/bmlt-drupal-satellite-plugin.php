@@ -101,11 +101,12 @@ class BMLTDrupalPlugin extends BMLTPlugin
         if ( function_exists ( 'drupal_get_path' ) )
             {
             global $base_url;
+
             $ret = $base_url.'/'.drupal_get_path ( 'module', 'bmlt' ).'/';
             }
         else
             {
-            $ret = $this->my_http_vars['base_url'];
+            $ret = isset ( $this->my_http_vars['base_url'] ) ? $this->my_http_vars['base_url'] : null;
             }
             
         return $ret;
@@ -401,7 +402,14 @@ class BMLTDrupalPlugin extends BMLTPlugin
                     $attr['rel'] = 'stylesheet';
                     $attr['type'] = 'text/css';
                     $attr['media'] = $media;
-                    drupal_add_link ( $attr );
+                    if ( function_exists ( 'drupal_add_link' ) )
+                        {
+                        drupal_add_link ( $attr );
+                        }
+                    else
+                        {
+                        $additional_stuff .= '<link rel="'.$attr['rel'].'" href="'.$attr['href'].'" type="'.$attr['type'].'" media="'.$attr['media'].'" />';
+                        }
                     }
                 }
             
@@ -439,7 +447,18 @@ class BMLTDrupalPlugin extends BMLTPlugin
             
             if ( $additional_stuff )
                 {
-                drupal_set_html_head ( $additional_stuff );
+                if ( function_exists ( 'drupal_set_html_head' ) )
+                    {
+                    drupal_set_html_head ( $additional_stuff );
+                    }
+                elseif ( function_exists ( 'drupal_add_html_head' ) )
+                    {
+                    $element = array(
+                                    '#type' => 'markup',
+                                    '#markup' => $additional_stuff
+                                    );
+                    drupal_add_html_head ( $element, 'bmlt' );
+                    }
                 }
             }
         }
@@ -486,8 +505,19 @@ class BMLTDrupalPlugin extends BMLTPlugin
             }
         
         $head_content .= 'admin_javascript.js"></script>';
-            
-        drupal_set_html_head ( $head_content );
+        
+        if ( function_exists ( 'drupal_set_html_head' ) )
+            {
+            drupal_set_html_head ( $head_content );
+            }
+        elseif ( function_exists ( 'drupal_add_html_head' ) )
+            {
+            $element = array(
+                            '#type' => 'markup',
+                            '#markup' => $head_content
+                            );
+            drupal_add_html_head ( $element, 'bmlt' );
+            }
         }
 };
 

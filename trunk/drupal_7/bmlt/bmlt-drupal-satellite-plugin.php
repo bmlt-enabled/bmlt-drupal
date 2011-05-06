@@ -402,7 +402,14 @@ class BMLTDrupalPlugin extends BMLTPlugin
                     $attr['rel'] = 'stylesheet';
                     $attr['type'] = 'text/css';
                     $attr['media'] = $media;
-                    drupal_add_link ( $attr );
+                    if ( function_exists ( 'drupal_add_link' ) )
+                        {
+                        drupal_add_link ( $attr );
+                        }
+                    else
+                        {
+                        $additional_stuff .= '<link rel="'.$attr['rel'].'" href="'.$attr['href'].'" type="'.$attr['type'].'" media="'.$attr['media'].'" />';
+                        }
                     }
                 }
             
@@ -450,7 +457,7 @@ class BMLTDrupalPlugin extends BMLTPlugin
                                     '#type' => 'markup',
                                     '#markup' => $additional_stuff
                                     );
-                    drupal_add_html_head ( $element, 'bmlt_admin' );
+                    drupal_add_html_head ( $element, 'bmlt' );
                     }
                 }
             }
@@ -509,7 +516,7 @@ class BMLTDrupalPlugin extends BMLTPlugin
                             '#type' => 'markup',
                             '#markup' => $head_content
                             );
-            drupal_add_html_head ( $element, 'bmlt_admin' );
+            drupal_add_html_head ( $element, 'bmlt' );
             }
         }
 };

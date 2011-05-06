@@ -26,6 +26,46 @@ require_once ( dirname ( __FILE__ ).'/bmlt-drupal-satellite-plugin.php' );
 
 /***********************************************/
 /**
+	\brief	This displays the actual BMLT content if the
+			text contains the BMLT shortcodes or HTML comments.
+*/
+function bmlt_filter (	$op = 'list',
+						$delta = 0,
+						$format = -1,
+						$text = '',
+						$cache_id = 0
+						)
+    {
+    global $BMLTPluginOp;
+    
+	switch ( $op )
+		{
+		case 'list':
+			$text = array ( $BMLTPluginOp->process_text ( $BMLTPluginOp->local_strings['en']['add_instance'] ) );
+		break;
+		
+		case 'no cache':
+			return true;
+		break;
+		
+		case 'description':
+			$text = $BMLTPluginOp->process_text ( $BMLTPluginOp->local_strings['en']['add_instance'] );
+		break;
+        
+		case 'prepare':
+            $text = _bmlt_prepare ( $text );
+		break;
+		
+		case 'process':
+		    $text = _bmlt_process ( $text );
+		break;
+		}
+	
+	return $text;
+    }
+
+/***********************************************/
+/**
 	\brief Sets up the menu for the BMLT
 */
 function bmlt_menu ( ) 
@@ -61,46 +101,50 @@ function bmlt_admin_form ( )
 function bmlt_boot ( )
 	{
     global $BMLTPluginOp;
-    
+
     $BMLTPluginOp->ajax_router();
 	}
 
 /***********************************************/
 /**
-	\brief	This displays the actual BMLT content if the
-			text contains the BMLT shortcodes or HTML comments.
+	\brief	This tells Drupal 7 about our filter.
 */
-function bmlt_filter (	$op = 'list',
-						$delta = 0,
-						$format = -1,
-						$text = '',
-						$cache_id = 0
-						)
+function bmlt_filter_info ()
     {
     global $BMLTPluginOp;
     
-	switch ( $op )
-		{
-		case 'list':
-			$text = array ( $BMLTPluginOp->process_text ( $BMLTPluginOp->local_strings['en']['add_instance'] ) );
-		break;
-		
-		case 'no cache':
-			return true;
-		break;
-		
-		case 'description':
-			$text = $BMLTPluginOp->process_text ( $BMLTPluginOp->local_strings['en']['add_instance'] );
-		break;
-        
-		case 'prepare':
-            $BMLTPluginOp->standard_head($text);
-		break;
-		
-		case 'process':
-		    $text = $BMLTPluginOp->content_filter($text);
-		break;
-		}
-	
-	return $text;
+    return array ( 'bmlt' => array (  'title' => $BMLTPluginOp->process_text ( $BMLTPluginOp->local_strings['en']['add_instance'] ),
+                            'prepare callback' => '_bmlt_prepare',
+                            'process callback' => '_bmlt_process',
+                            'cache' => false
+                            )
+                );
     }
+
+/***********************************************/
+/**
+	\brief	
+*/
+function _bmlt_prepare ($in_text,
+                        $in_filter
+                        )
+{
+    global $BMLTPluginOp;
+
+    $BMLTPluginOp->standard_head ( $in_text );
+    
+    return $in_text;
+}
+
+/***********************************************/
+/**
+	\brief	
+*/
+function _bmlt_process ($in_text,
+                        $in_filter
+                        )
+{
+    global $BMLTPluginOp;
+
+    return $BMLTPluginOp->content_filter ( $in_text );
+}
