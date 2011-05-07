@@ -25,8 +25,8 @@ Enable the module in the usual manner.
 This module operates through the use of text filters/input formats. You need to set up a text filter that uses the
 "Add a BMLT instance inline in text" filter.
 
-USAGE
------
+CHANGELIST
+----------
 
-EXAMPLES
---------
+2.1.10 -May 7, 2011
+    - Fixed a JavaScript error that prevented saves.
