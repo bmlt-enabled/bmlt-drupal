@@ -40,7 +40,10 @@
     along with this code.  If not, see <http://www.gnu.org/licenses/>.
 	
 	<h2 id="docs_release_notes">RELEASE NOTES:</h2>
-    - May 7, 2011 -2.1.10
+    - May 8, 2011 -2.1.11 Release
+        - Fixed an error in the parameter list that screwed up some advanced searches.
+
+    - May 7, 2011 -2.1.10 Release
 	    - Fixes a JavaScript error that was introduced by the Drupal kludge
 	    
     - May 6, 2011 -2.1.9
