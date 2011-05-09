@@ -3,7 +3,7 @@
 *   \file   bmlt-cms-satellite-plugin.php                                                   *
 *                                                                                           *
 *   \brief  This is a generic CMS plugin class for a BMLT satellite client.                 *
-*   \version 1.0.3                                                                          *
+*   \version 1.0.2                                                                          *
 *                                                                                           *
     This file is part of the Basic Meeting List Toolbox (BMLT).
     
@@ -444,11 +444,22 @@ class BMLTPlugin
                     {
                     foreach ( $value as $val )
                         {
+                        $val2 = '';
                         if ( isset ( $val ) &&  is_array ( $val ) && count ( $val ) )
                             {
-                            $val = implode ( ',', $val );
+                            // This clumsy, kludgy thing is because, for some $#@!! reason, Drupal 7 thinks an implode should result in a warning.
+                            $v2 = '';
+                            foreach ( $val as $v )
+                                {
+                                if ( $v2 )
+                                    {
+                                    $v2 .= ',';
+                                    }
+                                $v2 .= $v;
+                                }
+                            $val = $v2;
                             }
-                        elseif ( !isset ( $val ) )
+                        else
                             {
                             $val = '';
                             }
@@ -468,6 +479,7 @@ class BMLTPlugin
                     }
                 }
             }
+        
         return $my_params;
         }
     
@@ -1814,6 +1826,7 @@ class BMLTPlugin
                 elseif ( isset ( $this->my_http_vars['do_search'] ) )
                     {
                     $uri = "$root_server?switcher=GetSearchResults".$this->my_params;
+
                     $the_new_content = bmlt_satellite_controller::call_curl ( $uri );
                     }
  
