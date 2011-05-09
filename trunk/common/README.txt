@@ -28,5 +28,8 @@ This module operates through the use of text filters/input formats. You need to 
 CHANGELIST
 ----------
 
+2.1.11 -May 8, 2011
+    - Fixed an error in the parameter loads that interfered with advanced search functions.
+    
 2.1.10 -May 7, 2011
     - Fixed a JavaScript error that prevented saves.
