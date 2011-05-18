@@ -3,7 +3,7 @@
 *   \file   bmlt-cms-satellite-plugin.php                                                   *
 *                                                                                           *
 *   \brief  This is a generic CMS plugin class for a BMLT satellite client.                 *
-*   \version 1.0.2                                                                          *
+*   \version 1.0.4                                                                          *
 *                                                                                           *
     This file is part of the Basic Meeting List Toolbox (BMLT).
     
@@ -444,22 +444,11 @@ class BMLTPlugin
                     {
                     foreach ( $value as $val )
                         {
-                        $val2 = '';
                         if ( isset ( $val ) &&  is_array ( $val ) && count ( $val ) )
                             {
-                            // This clumsy, kludgy thing is because, for some $#@!! reason, Drupal 7 thinks an implode should result in a warning.
-                            $v2 = '';
-                            foreach ( $val as $v )
-                                {
-                                if ( $v2 )
-                                    {
-                                    $v2 .= ',';
-                                    }
-                                $v2 .= $v;
-                                }
-                            $val = $v2;
+                            $val = implode ( ',', $val );
                             }
-                        else
+                        elseif ( !isset ( $val ) )
                             {
                             $val = '';
                             }
@@ -479,7 +468,6 @@ class BMLTPlugin
                     }
                 }
             }
-        
         return $my_params;
         }
     
@@ -660,37 +648,49 @@ class BMLTPlugin
             $out_option_number = 0;
             }
         
-        $count = $this->get_num_options ( );
-        
-        // We sort through the available options, looking for the ID.
-        for ( $i = 1; $i <= $count; $i++ )
+        if ( !$in_option_id )
             {
-            $option_number = '';
+            $BMLTOptions = $this->getBMLTOptions ( 1 );
             
-            if ( $i > 1 )   // We do this, for compatibility with older options.
+            if ( isset ( $out_option_number ) )
                 {
-                $option_number = "_$i";
+                $out_option_number = 1;
                 }
+            }
+        else
+            {
+            $count = $this->get_num_options ( );
             
-            $name = self::$adminOptionsName.$option_number;
-            $temp_BMLTOptions = $this->cms_get_option ( $name );
-            
-            if ( is_array ( $temp_BMLTOptions ) && count ( $temp_BMLTOptions ) )
+            // We sort through the available options, looking for the ID.
+            for ( $i = 1; $i <= $count; $i++ )
                 {
-                if ( $temp_BMLTOptions['id'] == $in_option_id )
+                $option_number = '';
+                
+                if ( $i > 1 )   // We do this, for compatibility with older options.
                     {
-                    $BMLTOptions = $temp_BMLTOptions;
-                    // If they want to know the ID, we supply it here.
-                    if ( isset ( $out_option_number ) )
-                        {
-                        $out_option_number = $i;
-                        }
-                    break;
+                    $option_number = "_$i";
                     }
-                }
-            else
-                {
-                echo "<!-- BMLTPlugin ERROR (getBMLTOptions_by_id)! No options found for $name! -->";
+                
+                $name = self::$adminOptionsName.$option_number;
+                $temp_BMLTOptions = $this->cms_get_option ( $name );
+                
+                if ( is_array ( $temp_BMLTOptions ) && count ( $temp_BMLTOptions ) )
+                    {
+                    if ( $temp_BMLTOptions['id'] == $in_option_id )
+                        {
+                        $BMLTOptions = $temp_BMLTOptions;
+                        // If they want to know the ID, we supply it here.
+                        if ( isset ( $out_option_number ) )
+                            {
+                            $out_option_number = $i;
+                            }
+                        break;
+                        }
+                    }
+                else
+                    {
+                    echo "<!-- BMLTPlugin ERROR (getBMLTOptions_by_id)! No options found for $name! -->";
+                    }
                 }
             }
         
@@ -1826,7 +1826,6 @@ class BMLTPlugin
                 elseif ( isset ( $this->my_http_vars['do_search'] ) )
                     {
                     $uri = "$root_server?switcher=GetSearchResults".$this->my_params;
-
                     $the_new_content = bmlt_satellite_controller::call_curl ( $uri );
                     }
  

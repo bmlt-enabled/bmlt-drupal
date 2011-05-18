@@ -28,6 +28,10 @@ This module operates through the use of text filters/input formats. You need to 
 CHANGELIST
 ----------
 
+2.1.12
+    - Replaced a nice, efficient 'implode' with a primitive, kludgy loop, because Drupal 7 thinks implode() deserves a coding warning.
+    - Did a bit of code cleanup to make the Coder module happy-ish.
+
 2.1.11 -May 8, 2011
     - Fixed an error in the parameter loads that interfered with advanced search functions.
     
