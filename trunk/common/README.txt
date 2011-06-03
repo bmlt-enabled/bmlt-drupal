@@ -28,6 +28,12 @@ This module operates through the use of text filters/input formats. You need to 
 CHANGELIST
 ----------
 
+2.1.14
+    - Fixed a very strange bug that seems to cause error 500s on some servers. Not sure why the fix worked, but it does. This only manifested when doing an "address only" search in mobile mode.
+
+2.1.13
+    - Fixed a bug that prevented the Contact US form from being displayed.
+
 2.1.12
     - Replaced a nice, efficient 'implode' with a primitive, kludgy loop, because Drupal 7 thinks implode() deserves a coding warning.
     - Did a bit of code cleanup to make the Coder module happy-ish.
