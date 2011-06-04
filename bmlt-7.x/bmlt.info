@@ -1,7 +1,0 @@
-version = 2.1.13
-name = BMLT
-description = This is a satellite client for a BMLT root server.
-core = 7.x
-files[] = bmlt-drupal-satellite-plugin.php
-files[] = bmlt-cms-satellite-plugin.php
-files[] = bmlt_satellite_controller.class.php
