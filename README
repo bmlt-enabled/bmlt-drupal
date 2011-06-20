@@ -27,6 +27,9 @@ This module operates through the use of text filters/input formats. You need to 
 CHANGELIST
 ----------
 
+2.1.17
+    - Refactored the shared code into a submodule.
+
 2.1.16
     - Added some more data to the displays for meeting info in the mobile client.
     
