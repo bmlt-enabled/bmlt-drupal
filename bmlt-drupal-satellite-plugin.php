@@ -7,7 +7,7 @@
 *                                                                                           *
     This file is part of the Basic Meeting List Toolbox (BMLT).
     
-    Find out more at: http://bmlt.magshare.org
+    Find out more at: http://magshare.org/bmlt
     
     BMLT is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -343,10 +343,6 @@ class BMLTDrupalPlugin extends BMLTPlugin
             $load_head = false;
             }
 
-        $this->my_http_vars['gmap_key'] = $options['gmaps_api_key'];
-        
-        $this->my_http_vars['start_view'] = $options['bmlt_initial_view'];
-        
         $this->load_params ( );
         
         $root_server_root = $options['root_server'];
@@ -355,64 +351,45 @@ class BMLTDrupalPlugin extends BMLTPlugin
             {
             $root_server = $root_server_root."/client_interface/xhtml/index.php";
             
-            if ( $load_head )
-                {
-                if ( !$in_text || $this->get_shortcode ( $in_text, 'bmlt' ) )
-                    {
-                    $uri = "$root_server?switcher=GetHeaderXHTML&script_only".$this->my_params;
-                    $header_code = bmlt_satellite_controller::call_curl ( $uri, false );
+            $additional_stuff = '';
+            $url = $this->get_plugin_path();
             
-                    $scripts = explode ( " ", $header_code );
-                    foreach ( $scripts as $uri2 )
-                        {
-                        if ( !preg_match ( '|http://|', $uri2 ) )
-                            {
-                            $uri2 = $root_server_root.$uri2;
-                            }
-                        // We have to do it this way, because Drupal messes with scripts. That messes with us.
-                        $additional_stuff .= '<script type="text/javascript" src="'.$uri2.'"></script>';
-                        }
-                    }
+            if ( !defined ('_DEBUG_MODE_' ) )
+                {
+                $url .= 'js_stripper.php?filename=';
+                }
+            
+            $additional_stuff .= '<script type="text/javascript" src="'.$url.'javascript.js"></script>';
+            $additional_stuff .= '<script type="text/javascript" src="'.$url.'fast_mobile_lookup.js"></script>';
+            $additional_stuff .= '<script type="text/javascript" src="'.$url.'nouveau_map_search.js"></script>';
 
-                $url = $this->get_plugin_path();
-                
-                if ( !defined ('_DEBUG_MODE_' ) )
+            $header_code = bmlt_satellite_controller::call_curl ( "$root_server?switcher=GetHeaderXHTML&style_only".$this->my_params );
+            
+            $styles = explode ( " ", $header_code );
+            foreach ( $styles as $uri2 )
+                {
+                $media = null;
+                if ( preg_match ( '/print/', $uri2 ) )
                     {
-                    $url .= 'js_stripper.php?filename=';
+                    $media = 'print';
                     }
                 
-                $url .= 'javascript.js';
-
-                $additional_stuff .= '<script type="text/javascript" src="'.$url.'"></script>';
-
-                $header_code = bmlt_satellite_controller::call_curl ( "$root_server?switcher=GetHeaderXHTML&style_only".$this->my_params );
-                
-                $styles = explode ( " ", $header_code );
-                foreach ( $styles as $uri2 )
+                if ( !preg_match ( '|http://|', $uri2 ) )
                     {
-                    $media = null;
-                    if ( preg_match ( '/print/', $uri2 ) )
-                        {
-                        $media = 'print';
-                        }
-                    
-                    if ( !preg_match ( '|http://|', $uri2 ) )
-                        {
-                        $uri2 = $root_server_root.$uri2;
-                        }
-                    
-                    $attr['href'] = $uri2;
-                    $attr['rel'] = 'stylesheet';
-                    $attr['type'] = 'text/css';
-                    $attr['media'] = $media;
-                    if ( function_exists ( 'drupal_add_link' ) )
-                        {
-                        drupal_add_link ( $attr );
-                        }
-                    else
-                        {
-                        $additional_stuff .= '<link rel="'.$attr['rel'].'" href="'.$attr['href'].'" type="'.$attr['type'].'" media="'.$attr['media'].'" />';
-                        }
+                    $uri2 = $root_server_root.$uri2;
+                    }
+                
+                $attr['href'] = $uri2;
+                $attr['rel'] = 'stylesheet';
+                $attr['type'] = 'text/css';
+                $attr['media'] = $media;
+                if ( function_exists ( 'drupal_add_link' ) )
+                    {
+                    drupal_add_link ( $attr );
+                    }
+                else
+                    {
+                    $additional_stuff .= '<link rel="'.$attr['rel'].'" href="'.$attr['href'].'" type="'.$attr['type'].'" media="'.$attr['media'].'" />';
                     }
                 }
             
