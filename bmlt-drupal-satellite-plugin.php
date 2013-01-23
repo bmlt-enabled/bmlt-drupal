@@ -347,14 +347,6 @@ class BMLTDrupalPlugin extends BMLTPlugin
             $root_server = $root_server_root."/client_interface/xhtml/index.php";
             
             $additional_stuff = '';
-            $url = $this->get_plugin_path();
-            
-            if ( !defined ('_DEBUG_MODE_' ) )
-                {
-                $url .= 'js_stripper.php?filename=';
-                }
-            
-            $additional_stuff .= '<script type="text/javascript" src="'.$url.'javascript.js"></script>';
 
             $header_code = bmlt_satellite_controller::call_curl ( "$root_server?switcher=GetHeaderXHTML&style_only".$this->my_params );
             
