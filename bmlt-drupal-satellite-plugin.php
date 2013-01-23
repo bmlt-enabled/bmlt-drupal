@@ -337,11 +337,6 @@ class BMLTDrupalPlugin extends BMLTPlugin
             header ( "location: $mobile_url" );
             die ( );
             }
-        
-        if ( !$options['gmaps_api_key'] )   // No GMAP API key, no BMLT window.
-            {
-            $load_head = false;
-            }
 
         $this->load_params ( );
         
@@ -360,8 +355,6 @@ class BMLTDrupalPlugin extends BMLTPlugin
                 }
             
             $additional_stuff .= '<script type="text/javascript" src="'.$url.'javascript.js"></script>';
-            $additional_stuff .= '<script type="text/javascript" src="'.$url.'fast_mobile_lookup.js"></script>';
-            $additional_stuff .= '<script type="text/javascript" src="'.$url.'nouveau_map_search.js"></script>';
 
             $header_code = bmlt_satellite_controller::call_curl ( "$root_server?switcher=GetHeaderXHTML&style_only".$this->my_params );
             
