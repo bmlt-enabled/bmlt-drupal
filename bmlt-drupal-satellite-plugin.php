@@ -32,7 +32,12 @@ global $bmlt_localization;  ///< Use this to control the localization.
 
 if ( !isset ( $bmlt_localization ) || !$bmlt_localization )
     {
-    $language = i18n_get_lang();
+    $language = 'en';
+    
+    if ( function_exists ( 'i18n_get_lang' ) )
+        {
+        $language = i18n_get_lang();
+        }
     
     if ( $language )
         {
