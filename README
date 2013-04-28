@@ -31,6 +31,10 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
+3.0.8 -
+    - April 28, 2013
+    - Added support for display of military time.
+
 3.0.7 -
     - April 21, 2013
     - The string search was being improperly handled. This has been fixed.
