@@ -31,6 +31,10 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
+3.0.12 -
+    - May 16, 2013
+    - Removed some useless calls to the server. These were leftovers from the original version, and slowed down the page load.
+
 3.0.11 -
     - May 13, 2013
     - Reduced the number of times that the marker redraw is called in the standard [[bmlt]] shortcode handler.

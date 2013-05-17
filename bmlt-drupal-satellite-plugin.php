@@ -3,7 +3,7 @@
 *   \file   bmlt-drupal-satellite-plugin.php                                                *
 *                                                                                           *
 *   \brief  This is a Drupal plugin of a BMLT satellite client.                             *
-*   \version 3.0.11                                                                         *
+*   \version 3.0.12                                                                         *
 *                                                                                           *
     This file is part of the Basic Meeting List Toolbox (BMLT).
     
@@ -370,36 +370,6 @@ class BMLTDrupalPlugin extends BMLTPlugin
             $root_server = $root_server_root."/client_interface/xhtml/index.php";
             
             $additional_stuff = '';
-
-            $header_code = bmlt_satellite_controller::call_curl ( "$root_server?switcher=GetHeaderXHTML&style_only".$this->my_params );
-            
-            $styles = explode ( " ", $header_code );
-            foreach ( $styles as $uri2 )
-                {
-                $media = null;
-                if ( preg_match ( '/print/', $uri2 ) )
-                    {
-                    $media = 'print';
-                    }
-                
-                if ( !preg_match ( '|http://|', $uri2 ) )
-                    {
-                    $uri2 = $root_server_root.$uri2;
-                    }
-                
-                $attr['href'] = $uri2;
-                $attr['rel'] = 'stylesheet';
-                $attr['type'] = 'text/css';
-                $attr['media'] = $media;
-                if ( function_exists ( 'drupal_add_link' ) )
-                    {
-                    drupal_add_link ( $attr );
-                    }
-                else
-                    {
-                    $additional_stuff .= '<link rel="'.$attr['rel'].'" href="'.$attr['href'].'" type="'.$attr['type'].'" media="'.$attr['media'].'" />';
-                    }
-                }
             
             $url = $this->get_plugin_path();
             
