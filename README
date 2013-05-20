@@ -31,6 +31,10 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
+3.0.15 -
+    - May 19, 2013
+    - Fixed a small issue, in which entering text into the CSS field in the admin window would not "dirtify" the settings.
+    
 3.0.14 -
     - May 18, 2013
     - Fixed an issue, in which the AJAX URI got borked.
