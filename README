@@ -31,6 +31,11 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
+3.0.18 -
+    - September 7, 2013
+    - Fixed a couple of minor German localization issues.
+    - Fixed some JavaScript issues with the [[bmlt_mobile]] shortcode.
+    
 3.0.17 -
     - July 1, 2013
     - Corrected German localization.
