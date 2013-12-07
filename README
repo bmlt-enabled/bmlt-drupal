@@ -31,6 +31,10 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
+3.0.19 -
+    - December 7, 2013
+    - Added French localization
+
 3.0.18 -
     - September 7, 2013
     - Fixed a couple of minor German localization issues.
