@@ -31,6 +31,12 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
+3.0.26 -
+    - January 31, 2015
+    - Fixed an issue with the extra fields display in the regular shortcode display details.
+    - Fixed an issue where the arbitrary fields were actually creating too many results.
+    - Now hide the distance_in_km/miles parameters in the meeting details (these are internal parameters).
+
 3.0.25 -
     - November 23, 2014
     - Fixed a CSS issue with the admin display map. Some themes (especially responsive ones) declare a global max-width for images. This hoses Google Maps, and has to be compensated for.
