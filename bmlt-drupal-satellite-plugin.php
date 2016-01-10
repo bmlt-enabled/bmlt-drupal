@@ -3,7 +3,7 @@
 *   \file   bmlt-drupal-satellite-plugin.php                                                *
 *                                                                                           *
 *   \brief  This is a Drupal plugin of a BMLT satellite client.                             *
-*   \version 3.0.28                                                                         *
+*   \version 3.0.29                                                                         *
 *                                                                                           *
     This file is part of the Basic Meeting List Toolbox (BMLT).
     
@@ -30,26 +30,32 @@ require_once ( dirname ( __FILE__ ).'/BMLT-Satellite-Base-Class/bmlt-cms-satelli
 
 global $bmlt_localization;  ///< Use this to control the localization.
 
-if ( !isset ( $bmlt_localization ) || !$bmlt_localization )
+if ( isset ( $_COOKIE ) && isset ( $_COOKIE['bmlt_lang_selector'] ) && $_COOKIE['bmlt_lang_selector'] )
     {
-    $language = 'en';
-    
-    if ( function_exists ( 'i18n_get_lang' ) )
-        {
-        $language = i18n_get_lang();
-        }
-    
-    if ( $language )
-        {
-        $bmlt_localization = substr ( $language, 0, 2 );
-        }
-    
+    $bmlt_localization = $_COOKIE['bmlt_lang_selector'];
+    }
+else
+    {
     if ( !isset ( $bmlt_localization ) || !$bmlt_localization )
         {
-        $bmlt_localization = 'en';  ///< Last-ditch default value.
+        $language = 'en';
+    
+        if ( function_exists ( 'i18n_get_lang' ) )
+            {
+            $language = i18n_get_lang();
+            }
+    
+        if ( $language )
+            {
+            $bmlt_localization = substr ( $language, 0, 2 );
+            }
         }
     }
-
+    
+if ( !isset ( $bmlt_localization ) || !$bmlt_localization )
+    {
+    $bmlt_localization = 'en';  ///< Last-ditch default value.
+    }
 
 /****************************************************************************************//**
 *   \class BMLTDrupalPlugin                                                                 *
