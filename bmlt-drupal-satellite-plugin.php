@@ -3,7 +3,7 @@
 *   \file   bmlt-drupal-satellite-plugin.php                                                *
 *                                                                                           *
 *   \brief  This is a Drupal plugin of a BMLT satellite client.                             *
-*   \version 3.0.29                                                                         *
+*   \version 3.1.0                                                                          *
 *                                                                                           *
     This file is part of the Basic Meeting List Toolbox (BMLT).
     
@@ -97,7 +97,7 @@ class BMLTDrupalPlugin extends BMLTPlugin
     ****************************************************************************************/
     protected function get_admin_ajax_base_uri()
         {
-        return $_SERVER['PHP_SELF'].'?q=admin/settings/bmlt';
+        return $this->get_ajax_base_uri().'?q=admin/settings/bmlt';
         }
     
     /************************************************************************************//**
@@ -117,7 +117,14 @@ class BMLTDrupalPlugin extends BMLTPlugin
     ****************************************************************************************/
     protected function get_ajax_base_uri()
         {
-        return $_SERVER['PHP_SELF'];
+        $port = $_SERVER['SERVER_PORT'] ;
+        // IIS puts "off" in the HTTPS field, so we need to test for that.
+        $https = (!empty ( $_SERVER['HTTPS'] ) && (($_SERVER['HTTPS'] !== 'off') || ($port == 443))); 
+        $server_path = $_SERVER['SERVER_NAME'];
+        $my_path = $_SERVER['PHP_SELF'];
+        $server_path .= trim ( (($https && ($port != 443)) || (!$https && ($port != 80))) ? ':'.$port : '', '/' );
+        $server_path = 'http'.($https ? 's' : '').'://'.$server_path.$my_path;
+        return $server_path;
         }
     
     /************************************************************************************//**
