@@ -31,6 +31,10 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
+3.2.2 -
+    - March 29, 2016
+    - This should really fix things. Honest.
+    
 3.2.1 -
     - March 29, 2016
     - Fixes a JavaScript error introduced in 3.2.0.
