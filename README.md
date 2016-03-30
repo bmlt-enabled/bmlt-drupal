@@ -31,6 +31,13 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
+3.2.3 -
+    - March 30, 2016
+    - Got rid of an undeclared variable warning.
+    - Fixed a bug that caused rendering issues with the new table shortcode on Internet Exploder.
+    - Fixed a minor style issue, where the selection triangle would flow below the text in large text situations.
+    - Changed the styling for the selected header triangle to make the table display a bit more responsive.
+
 3.2.2 -
     - March 29, 2016
     - This should really fix things. Honest.
