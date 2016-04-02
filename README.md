@@ -31,6 +31,10 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
+3.2.5 -
+    - TBD
+    - Made it so that we can have specialized themes, amied at only certain shortcodes.
+
 3.2.4 -
     - April 1, 2016 (Happy April Fools'!)
     - Broke the table styling out into separate files that are all loaded at once. This allows a lot more flexibility when implementing the table display.

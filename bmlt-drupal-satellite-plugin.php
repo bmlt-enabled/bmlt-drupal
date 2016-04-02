@@ -3,7 +3,7 @@
 *   \file   bmlt-drupal-satellite-plugin.php                                                *
 *                                                                                           *
 *   \brief  This is a Drupal plugin of a BMLT satellite client.                             *
-*   \version 3.2.4                                                                          *
+*   \version 3.2.5                                                                          *
 *                                                                                           *
     This file is part of the Basic Meeting List Toolbox (BMLT).
     
@@ -378,25 +378,35 @@ class BMLTDrupalPlugin extends BMLTPlugin
         
         $root_server_root = $options['root_server'];
 
+        $additional_stuff .= '<meta name="BMLT-Root-URI" content="'.htmlspecialchars ( $root_server_root ).'" />';
+
         if ( $root_server_root )
             {
             $root_server = $root_server_root."/client_interface/xhtml/index.php";
             
             $additional_stuff = '';
             
-            $url = $this->get_plugin_path();
-            
-            $url .= 'themes/'.$options['theme'].'/';
+            $url = $this->get_plugin_path().'themes/'.$options['theme'].'/';
             
             if ( !defined ('_DEBUG_MODE_' ) )
                 {
                 $url .= 'style_stripper.php?filename=';
                 }
 
-            $additional_stuff .= '<meta name="BMLT-Root-URI" content="'.htmlspecialchars ( $root_server_root ).'" />';
-            $additional_stuff .= '<link rel="stylesheet" type="text/css" href="'.htmlspecialchars ( $url.'styles.css' ).'" />';
-            $additional_stuff .= '<link rel="stylesheet" type="text/css" href="'.htmlspecialchars ( $url.'nouveau_map_styles.css' ).'" />';
-            $additional_stuff .= '<link rel="stylesheet" type="text/css" href="'.$this->get_plugin_path().'/table_styles.php" />';
+            if ( file_exists ( dirname ( __FILE__ ).'/BMLT-Satellite-Base-Class/themes/'.$options['theme'].'/styles.css' ) )
+                {
+                $additional_stuff .= '<link rel="stylesheet" type="text/css" href="'.htmlspecialchars ( $url.'styles.css' ).'" />';
+                }
+        
+            if ( file_exists ( dirname ( __FILE__ ).'/BMLT-Satellite-Base-Class/themes/'.$options['theme'].'/nouveau_map_styles.css' ) )
+                {
+                $additional_stuff .= '<link rel="stylesheet" type="text/css" href="'.htmlspecialchars ( $url.'nouveau_map_styles.css' ).'" />';
+                }
+        
+            if ( file_exists ( dirname ( __FILE__ ).'/BMLT-Satellite-Base-Class/table_styles.php' ) )
+                {
+                $additional_stuff .= '<link rel="stylesheet" type="text/css" href="'.$url.'/table_styles.php" />';
+                }
             
             $additional_css = '.bmlt_container * {margin:0;padding:0 }';
             
