@@ -31,9 +31,10 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
-3.2.5 -
-    - TBD
+3.3.0 -
+    - April 4, 2016
     - Made it so that we can have specialized themes, amied at only certain shortcodes.
+    - Major rewrite of the [[bmlt_table]] shortcode, to improve responsive design.
 
 3.2.4 -
     - April 1, 2016 (Happy April Fools'!)
