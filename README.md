@@ -31,6 +31,15 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
+3.3.1 -
+    - April 6, 2016
+    - Made the weekday tab overflow hidden.
+    - The format circles now float to the right.
+    - Added a display for days with no meetings.
+    - Fixed a bug in the [[bmlt_table]] shortcode, where the loading throbber would get replaced too quickly when selecting weekday tabs.
+    - Corrected a bug that allowed "00:00" times (should be "Midnight").
+    - Fixed a bug in the "simple map search" that displayed the info windows offset.
+
 3.3.0 -
     - April 4, 2016
     - Made it so that we can have specialized themes, amied at only certain shortcodes.
