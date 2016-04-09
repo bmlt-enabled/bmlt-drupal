@@ -31,6 +31,10 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
+3.3.3 -
+    - April 9, 2016
+    - Fixes a bug that could possibly cause issues with unparameterized instances of [[bmlt_table]].
+
 3.3.2 -
     - April 9, 2016
     - Added a "Breaker Div" to the end of the meeting list.
