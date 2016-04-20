@@ -405,7 +405,7 @@ class BMLTDrupalPlugin extends BMLTPlugin
         
             if ( file_exists ( dirname ( __FILE__ ).'/BMLT-Satellite-Base-Class/table_styles.php' ) )
                 {
-                $additional_stuff .= '<link rel="stylesheet" type="text/css" href="'.$url.'/table_styles.php" />';
+                $additional_stuff .= '<link rel="stylesheet" type="text/css" href="'.$this->get_plugin_path().'/table_styles.php" />';
                 }
             
             $additional_css = '.bmlt_container * {margin:0;padding:0 }';
