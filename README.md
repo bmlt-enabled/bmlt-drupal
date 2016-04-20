@@ -28,6 +28,10 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
+***Version 3.3.5** -April 20, 2016*
+
+* Fixed a bug, in which the [bmlt_table](http://bmlt.magshare.net/satellites/the-fast-table-display/) did not style correctly.
+
 ***Version 3.3.4** -April 14, 2016*
 
 * Refactored to make the code more straightforward and reusable.
