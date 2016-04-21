@@ -28,9 +28,10 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
-***Version 3.3.5** -April 20, 2016*
+***Version 3.3.6** -April 21, 2016*
 
-* Fixed a bug, in which the [bmlt_table](http://bmlt.magshare.net/satellites/the-fast-table-display/) did not style correctly.
+* Made it so that the details in the standard shortcode can be dismissed by clicking anywhere. I also now display a visible translucent mask.
+* Fixed a bug, in which the [bmlt_table](http://bmlt.magshare.net/satellites/the-fast-table-display/) did not style correctly. The default Drupal styles clobber the built-in ones, so I had to reinforce the built-in ones a bit.
 
 ***Version 3.3.4** -April 14, 2016*
 
