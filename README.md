@@ -31,6 +31,7 @@ CHANGELIST
 ***Version 3.3.7* ** *- TBD*
 
 - Tweaked this README file to compensate for the new Atlassian format.
+- Added a repo icon.
 
 ***Version 3.3.6* ** *- April 21, 2016*
 
