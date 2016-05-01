@@ -32,6 +32,7 @@ CHANGELIST
 
 - Tweaked this README file to compensate for the new Atlassian format.
 - Added a repo icon.
+- Added [Doxygen](http://doxygen.nl) documentation.
 
 ***Version 3.3.6* ** *- April 21, 2016*
 
