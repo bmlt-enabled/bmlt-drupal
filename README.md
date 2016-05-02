@@ -28,7 +28,7 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
-***Version 3.3.7* ** *- TBD*
+***Version 3.3.7* ** *- May 2, 2016*
 
 - Tweaked this README file to compensate for the new Atlassian format.
 - Added a repo icon.
