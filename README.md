@@ -28,6 +28,10 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
+***Version 3.3.9* ** *- TBD*
+
+- Made a change to the way the Google Maps API is called (now make sure I include SSL version).
+
 ***Version 3.3.7* ** *- May 2, 2016*
 
 - Tweaked this README file to compensate for the new Atlassian format.

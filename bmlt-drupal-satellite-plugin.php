@@ -3,7 +3,7 @@
 *   \file   bmlt-drupal-satellite-plugin.php                                                *
 *                                                                                           *
 *   \brief  This is a Drupal plugin of a BMLT satellite client.                             *
-*   \version 3.3.7                                                                          *
+*   \version 3.3.9                                                                          *
 *                                                                                           *
     This file is part of the Basic Meeting List Toolbox (BMLT).
     
@@ -457,7 +457,7 @@ class BMLTDrupalPlugin extends BMLTPlugin
         
         $head_content .= 'javascript.js"></script>';
         
-        $head_content .= '<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>';  // Load the Google Maps stuff for our map.
+        $head_content .= '<script type="text/javascript" src="https://maps.google.com/maps/api/js"></script>';  // Load the Google Maps stuff for our map.
         
         $head_content .= '<link rel="stylesheet" type="text/css" href="';
         
