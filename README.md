@@ -28,8 +28,10 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
-***Version 3.3.9* ** *- TBD*
+***Version 3.3.9* ** *- May 22, 2016*
 
+- Now detect escape key to close meeting details overlay.
+- The mobile JS file was importing a non-HTTPS Google Maps API. I changed this to use the HTTPS version.
 - Made a change to the way the Google Maps API is called (now make sure I include SSL version).
 
 ***Version 3.3.7* ** *- May 2, 2016*
