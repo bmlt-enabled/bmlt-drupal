@@ -28,6 +28,11 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
+***Version 3.4.1* ** *- November 6, 2016*
+
+- There was one more place in the mobile implementation that needed the key.
+- There was an error in the JavaScript in the mobile shortcode.
+
 ***Version 3.4.0* ** *- October 16, 2016*
 
 - Reintroduced support for the Google API Key.
