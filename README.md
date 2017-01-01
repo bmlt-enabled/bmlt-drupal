@@ -28,6 +28,12 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
+***Version 3.4.3* ** *- January 1, 2017*
+
+- Enhanced the "GNYR2" theme.
+- Fixed a bug in the fast table display, where venue names were not being displayed.
+- Couple of minor tweaks in the Google API includes. Probably makes no difference.
+
 ***Version 3.4.1* ** *- November 6, 2016*
 
 - There was one more place in the mobile implementation that needed the key.
