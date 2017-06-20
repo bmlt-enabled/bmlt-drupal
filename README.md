@@ -28,6 +28,10 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
+***Version 3.4.7* ** *- June 20, 2017*
+
+- Addressed an issue where misconfigured SSL certs could cause problems. I now just pretend they aren't misconfigured, because everyone else does the same.
+
 ***Version 3.4.6* ** *- May 18, 2017*
 
 - Added support for a per-setting Region Bias.
