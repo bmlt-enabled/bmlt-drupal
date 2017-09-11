@@ -3,7 +3,7 @@
 *   \file   bmlt-drupal-satellite-plugin.php                                                *
 *                                                                                           *
 *   \brief  This is a Drupal plugin of a BMLT satellite client.                             *
-*   \version 3.5.0                                                                          *
+*   \version 3.5.1                                                                          *
 *                                                                                           *
     This file is part of the Basic Meeting List Toolbox (BMLT).
     
@@ -23,7 +23,7 @@
     along with this code.  If not, see <http://www.gnu.org/licenses/>.
 ********************************************************************************************/
 
-// define ( '_DEBUG_MODE_', 1 ); //Uncomment for easier JavaScript debugging.
+define ( '_DEBUG_MODE_', 1 ); //Uncomment for easier JavaScript debugging.
 
 // Include the satellite driver class.
 require_once ( dirname ( __FILE__ ).'/BMLT-Satellite-Base-Class/bmlt-cms-satellite-plugin.php' );
