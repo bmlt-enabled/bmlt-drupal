@@ -384,28 +384,27 @@ class BMLTDrupalPlugin extends BMLTPlugin
             {
             $root_server = $root_server_root."/client_interface/xhtml/index.php";
             
-            $additional_stuff = '';
-            
-            $url = $this->get_plugin_path().'themes/'.$options['theme'].'/';
-            
-            if ( !defined ('_DEBUG_MODE_' ) )
-                {
-                $url .= 'style_stripper.php?filename=';
-                }
-
-            if ( file_exists ( dirname ( __FILE__ ).'/BMLT-Satellite-Base-Class/themes/'.$options['theme'].'/styles.css' ) )
-                {
-                $additional_stuff .= '<link rel="stylesheet" type="text/css" href="'.htmlspecialchars ( $url.'styles.css' ).'" />';
-                }
-        
-            if ( file_exists ( dirname ( __FILE__ ).'/BMLT-Satellite-Base-Class/themes/'.$options['theme'].'/nouveau_map_styles.css' ) )
-                {
-                $additional_stuff .= '<link rel="stylesheet" type="text/css" href="'.htmlspecialchars ( $url.'nouveau_map_styles.css' ).'" />';
-                }
-            
             $additional_css = '.bmlt_container * {margin:0;padding:0 }';
         
+            $temp = self::stripFile ( "nouveau_map_styles.css" );
+            if ( $temp )
+                {
+                $additional_css .= "\t$temp\n";
+                }
+            
             $temp = self::stripFile ( "table_styles.css" );
+            if ( $temp )
+                {
+                $additional_css .= "\t$temp\n";
+                }
+            
+            $temp = self::stripFile ( "styles.css", $options['theme'] );
+            if ( $temp )
+                {
+                $additional_css .= "\t$temp\n";
+                }
+            
+            $temp = self::stripFile ( "nouveau_map_styles.css", $options['theme'] );
             if ( $temp )
                 {
                 $additional_css .= "\t$temp\n";
