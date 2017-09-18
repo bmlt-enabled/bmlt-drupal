@@ -410,6 +410,37 @@ class BMLTDrupalPlugin extends BMLTPlugin
             
             $additional_css = '.bmlt_container * {margin:0;padding:0 }';
             
+            $temp = self::stripFile ( "quicksearch.css" );
+            if ( $temp )
+                {
+                $additional_css .= "\t$temp\n";
+                }
+                
+            $dirname = dirname ( __FILE__ ) . '/BMLT-Satellite-Base-Class/themes';
+            $dir = new DirectoryIterator ( $dirname );
+
+            foreach ( $dir as $fileinfo )
+                {
+                if ( !$fileinfo->isDot () )
+                    {
+                    $fName = $fileinfo->getFilename ();
+                    
+                    $temp = self::stripFile ( "table_styles.css", $fName );
+                    if ( $temp )
+                        {
+                        $image_dir_path = $this->get_plugin_path() . '/themes/' . $fName . '/images/';
+                        $temp = str_replace ( '##-IMAGEDIR-##', $image_dir_path, $temp );
+                        $additional_css .= "\t$temp\n";
+                        }
+                    
+                    $temp = self::stripFile ( "quicksearch.css", $fName );
+                    if ( $temp )
+                        {
+                        $additional_css .= "\t$temp\n";
+                        }
+                    }
+                }
+            
             if ( $options['additional_css'] )
                 {
                 $additional_css .= $options['additional_css'];
