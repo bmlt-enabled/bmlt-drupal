@@ -3,7 +3,7 @@
     // $Id$
     \file bmlt.module
     \brief The implementation of the Drupal BMLT satellite server module.
-    \version 3.5.1
+    \version 3.6.0
     
     This file is part of the Basic Meeting List Toolbox (BMLT).
     
@@ -137,6 +137,7 @@ function _bmlt_prepare($in_text,
         ||  $BMLTPluginOp->get_shortcode ( $in_text, 'bmlt_simple' )
         ||  $BMLTPluginOp->get_shortcode ( $in_text, 'bmlt_mobile' )
         ||  $BMLTPluginOp->get_shortcode ( $in_text, 'bmlt_table' )
+        ||  $BMLTPluginOp->get_shortcode ( $in_text, 'bmlt_quicksearch' )
         )
         {
         $BMLTPluginOp->standard_head( $in_text );

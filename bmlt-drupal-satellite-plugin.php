@@ -3,7 +3,7 @@
 *   \file   bmlt-drupal-satellite-plugin.php                                                *
 *                                                                                           *
 *   \brief  This is a Drupal plugin of a BMLT satellite client.                             *
-*   \version 3.5.1                                                                          *
+*   \version 3.6.0                                                                          *
 *                                                                                           *
     This file is part of the Basic Meeting List Toolbox (BMLT).
     
@@ -334,7 +334,7 @@ class BMLTDrupalPlugin extends BMLTPlugin
         {
         $load_head = true;
 
-        $additional_stuff = "<!-- Added by the BMLT plugin 2.0. -->\n<meta http-equiv=\"X-UA-Compatible\" content=\"IE=EmulateIE7\" />\n<meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />\n<meta http-equiv=\"Content-Script-Type\" content=\"text/javascript\" />\n";
+        $additional_stuff = "<!-- Added by the BMLT plugin 3.X. -->\n<meta http-equiv=\"X-UA-Compatible\" content=\"IE=EmulateIE7\" />\n<meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />\n<meta http-equiv=\"Content-Script-Type\" content=\"text/javascript\" />\n";
         
         $support_mobile = $this->cms_get_page_settings_id ( $in_text, true );
         
@@ -402,13 +402,14 @@ class BMLTDrupalPlugin extends BMLTPlugin
                 {
                 $additional_stuff .= '<link rel="stylesheet" type="text/css" href="'.htmlspecialchars ( $url.'nouveau_map_styles.css' ).'" />';
                 }
-        
-            if ( file_exists ( dirname ( __FILE__ ).'/BMLT-Satellite-Base-Class/table_styles.php' ) )
-                {
-                $additional_stuff .= '<link rel="stylesheet" type="text/css" href="'.$this->get_plugin_path().'/table_styles.php" />';
-                }
             
             $additional_css = '.bmlt_container * {margin:0;padding:0 }';
+        
+            $temp = self::stripFile ( "table_styles.css" );
+            if ( $temp )
+                {
+                $additional_css .= "\t$temp\n";
+                }
             
             $temp = self::stripFile ( "quicksearch.css" );
             if ( $temp )
@@ -451,6 +452,14 @@ class BMLTDrupalPlugin extends BMLTPlugin
                 $additional_stuff .= '<style type="text/css">'.preg_replace ( "|\s+|", " ", $additional_css ).'</style>';
                 }
             
+            $additional_stuff .= '<script type="text/javascript">';
+        
+            $additional_stuff .= self::stripFile ( 'javascript.js' );
+            $additional_stuff .= self::stripFile ( 'map_search.js' );
+            $additional_stuff .= self::stripFile ( 'fast_mobile_lookup.js' );
+        
+            $additional_stuff .= '</script>';
+            
             if ( $additional_stuff )
                 {
                 if ( function_exists ( 'drupal_set_html_head' ) )
@@ -474,19 +483,12 @@ class BMLTDrupalPlugin extends BMLTPlugin
     ****************************************************************************************/
     function admin_head ( )
         {
-        $head_content = "<!-- Added by the BMLT plugin 2.0. -->\n<meta http-equiv=\"X-UA-Compatible\" content=\"IE=EmulateIE7\" />\n<meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />\n<meta http-equiv=\"Content-Script-Type\" content=\"text/javascript\" />\n";
-        $head_content .= '<script type="text/javascript" src="';
-        
-        $url = $this->get_plugin_path();
-        
-        $head_content .= htmlspecialchars ( $url );
-        
-        if ( !defined ('_DEBUG_MODE_' ) )
-            {
-            $head_content .= 'js_stripper.php?filename=';
-            }
-        
-        $head_content .= 'javascript.js"></script>';
+        $head_content = "<!-- Added by the BMLT plugin 3.0. -->\n<meta http-equiv=\"X-UA-Compatible\" content=\"IE=EmulateIE7\" />\n<meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />\n<meta http-equiv=\"Content-Script-Type\" content=\"text/javascript\" />\n";
+        $head_content .= '<script type="text/javascript">';
+    
+        $head_content .= self::stripFile ( 'javascript.js' );
+    
+        $head_content .= '</script>';
         
         $options = $this->getBMLTOptions(1);    // All options contain the admin key.
         $key = $options['google_api_key'];
@@ -494,6 +496,8 @@ class BMLTDrupalPlugin extends BMLTPlugin
         $head_content .= '<script type="text/javascript" src="https://maps.google.com/maps/api/js?key='.$key.'"></script>';  // Load the Google Maps stuff for our map.
         
         $head_content .= '<link rel="stylesheet" type="text/css" href="';
+        
+        $url = $this->get_plugin_path();
         
         $head_content .= htmlspecialchars ( $url );
         

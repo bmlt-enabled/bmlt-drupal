@@ -28,6 +28,11 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
+***Version 3.6.0* ** *- September 18, 2017*
+
+- Added the [[BMLT_QUICKSEARCH]] shortcode.
+- Optimized the styles and Javascript.
+
 ***Version 3.5.1* ** *- September 11, 2017*
 
 - There were still some issues that needed to be addressed.
