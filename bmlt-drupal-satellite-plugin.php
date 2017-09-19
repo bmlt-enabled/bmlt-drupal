@@ -3,7 +3,7 @@
 *   \file   bmlt-drupal-satellite-plugin.php                                                *
 *                                                                                           *
 *   \brief  This is a Drupal plugin of a BMLT satellite client.                             *
-*   \version 3.6.0                                                                          *
+*   \version 3.6.1                                                                          *
 *                                                                                           *
     This file is part of the Basic Meeting List Toolbox (BMLT).
     
@@ -401,12 +401,16 @@ class BMLTDrupalPlugin extends BMLTPlugin
             $temp = self::stripFile ( "styles.css", $options['theme'] );
             if ( $temp )
                 {
+                $image_dir_path = $this->get_plugin_path() . '/themes/' . $options['theme'] . '/images/';
+                $temp = str_replace ( '##-IMAGEDIR-##', $image_dir_path, $temp );
                 $additional_css .= "\t$temp\n";
                 }
             
             $temp = self::stripFile ( "nouveau_map_styles.css", $options['theme'] );
             if ( $temp )
                 {
+                $image_dir_path = $this->get_plugin_path() . '/themes/' . $options['theme'] . '/images/';
+                $temp = str_replace ( '##-IMAGEDIR-##', $image_dir_path, $temp );
                 $additional_css .= "\t$temp\n";
                 }
             
