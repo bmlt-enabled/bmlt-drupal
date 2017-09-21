@@ -28,6 +28,10 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
+***Version 3.6.2* ** *- September 21, 2017*
+
+- Fixes a style issue, where the [[bmlt_mobile]] shortcode could possibly fail to apply styles.
+
 ***Version 3.6.1* ** *- September 19, 2017*
 
 - Fixes a style issue, where images were not being displayed in the regular [[BMLT]] shortcode.
