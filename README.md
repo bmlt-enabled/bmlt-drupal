@@ -28,6 +28,10 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
+***Version 3.7.0* ** *- September 24, 2017*
+
+- Added Spanish translation -FINALLY! Thanks, Costa Rica!
+
 ***Version 3.6.2* ** *- September 21, 2017*
 
 - Fixes a style issue, where the [[bmlt_mobile]] shortcode could possibly fail to apply styles.
