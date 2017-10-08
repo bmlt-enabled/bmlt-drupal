@@ -3,7 +3,7 @@
 *   \file   bmlt-drupal-satellite-plugin.php                                                *
 *                                                                                           *
 *   \brief  This is a Drupal plugin of a BMLT satellite client.                             *
-*   \version 3.7.1                                                                          *
+*   \version 3.8.0                                                                          *
 *                                                                                           *
     This file is part of the Basic Meeting List Toolbox (BMLT).
     
@@ -443,6 +443,12 @@ class BMLTDrupalPlugin extends BMLTPlugin
                         $additional_css .= "\t$temp\n";
                         }
                     }
+                }
+            
+            $temp = self::stripFile ( "responsiveness.css" );
+            if ( $temp )
+                {
+                $additional_css .= "\t$temp\n";
                 }
             
             if ( $options['additional_css'] )
