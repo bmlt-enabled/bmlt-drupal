@@ -29,6 +29,10 @@ This module operates through the use of text filters/input formats. You need to 
 CHANGELIST
 ----------
 
+***Version 3.9.0 ** *- December 31, 2017*
+
+- Added the Auto-Radius Density capability to the admin screen.
+
 ***Version 3.8.2* ** *- October 8, 2017*
 
 - The "fix" in 3.8.1 broke certain other installations. That should be fixed here.
