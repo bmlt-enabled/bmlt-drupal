@@ -29,6 +29,12 @@ This module operates through the use of text filters/input formats. You need to 
 CHANGELIST
 ----------
 
+***Version 3.9.1 ** *- January 4, 2018*
+
+- Fixed an issue where some translated versions had bad settings in the BMLT options initial map type.
+- New Italian Translation.
+- Fixed a bug in the admin screen where it was possible to cause problems with translated strings containing apostrophes.
+
 ***Version 3.9.0 ** *- December 31, 2017*
 
 - Added the Auto-Radius Density capability to the admin screen.
