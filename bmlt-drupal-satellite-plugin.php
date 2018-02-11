@@ -3,7 +3,7 @@
 *   \file   bmlt-drupal-satellite-plugin.php                                                *
 *                                                                                           *
 *   \brief  This is a Drupal plugin of a BMLT satellite client.                             *
-*   \version 3.9.1                                                                          *
+*   \version 3.9.2                                                                          *
 *                                                                                           *
     This file is part of the Basic Meeting List Toolbox (BMLT).
     
@@ -464,9 +464,22 @@ class BMLTDrupalPlugin extends BMLTPlugin
             $additional_stuff .= '<script type="text/javascript">';
         
             $additional_stuff .= self::stripFile ( 'javascript.js' );
-            $additional_stuff .= self::stripFile ( 'map_search.js' );
-            $additional_stuff .= self::stripFile ( 'fast_mobile_lookup.js' );
+
+            if ( $this->get_shortcode ( $in_text, 'bmlt_quicksearch' ) )
+                {
+                $additional_stuff .= self::stripFile ( 'quicksearch.js' ) . (defined ( '_DEBUG_MODE_' ) ? "\n" : '');
+                }
         
+            if ( $this->get_shortcode ( $in_text, 'bmlt_map' ) )
+                {
+                $additional_stuff .= self::stripFile ( 'map_search.js' );
+                }
+        
+            if ( $this->get_shortcode ( $in_text, 'bmlt_mobile' ) )
+                {
+                $additional_stuff .= self::stripFile ( 'fast_mobile_lookup.js' );
+                }
+    
             $additional_stuff .= '</script>';
             
             if ( $additional_stuff )
