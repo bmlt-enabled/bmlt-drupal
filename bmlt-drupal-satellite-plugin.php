@@ -26,7 +26,8 @@
 // define ( '_DEBUG_MODE_', 1 ); //Uncomment for easier JavaScript debugging.
 
 // Include the satellite driver class.
-require_once ( dirname ( __FILE__ ).'/BMLT-Satellite-Base-Class/bmlt-cms-satellite-plugin.php' );
+define('ROOTPATH', __DIR__);
+require_once ( ROOTPATH .'/vendor/bmlt/bmlt-satellite-base-class/bmlt-cms-satellite-plugin.php' );
 
 global $bmlt_localization;  ///< Use this to control the localization.
 
@@ -187,7 +188,8 @@ class BMLTDrupalPlugin extends BMLTPlugin
             {
             $index = max ( 1, intval(str_replace ( self::$adminOptionsName.'_', '', $in_option_key ) ));
             
-            $ret = isset ( $row[$index - 1] ) ? $row[$index - 1] : $defaults[$index - 1];
+            $ret = isset ( $row[$index - 1] ) ? $row[$index - 1] :
+                $defaults[$index - 1];
             }
         else
             {
