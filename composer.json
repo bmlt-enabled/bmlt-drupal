@@ -1,6 +1,6 @@
 {
-  "name": "bmlt/bmlt-wordpress-satellite-plugin",
-  "description": "This is a WordPress plugin of a BMLT satellite client.",
+  "name": "bmlt/bmlt-drupal",
+  "description": "This is a Drupal plugin of a BMLT satellite client.",
   "type": "project",
   "license": "GPL",
   "authors": [{
