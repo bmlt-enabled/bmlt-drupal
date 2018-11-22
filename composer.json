@@ -1,6 +1,6 @@
 {
-  "name": "bmlt/bmlt-drupal",
-  "description": "This is the Drupal module for the BMLT system.",
+  "name": "bmlt/bmlt-wordpress-satellite-plugin",
+  "description": "This is a WordPress plugin of a BMLT satellite client.",
   "type": "project",
   "license": "GPL",
   "authors": [{
@@ -8,15 +8,7 @@
   },{
     "name": "radius314"
   }],
-  "repositories": [{
-    "url": "https://github.com/bmlt-enabled/bmlt-satellite-base-class",
-    "type": "git"
-  }, {
-    "url": "https://github.com/bmlt-enabled/bmlt-satellite-driver",
-    "type": "git"
-  }],
   "require": {
-    "bmlt/bmlt-satellite-base-class": "dev-master",
-    "bmlt/bmlt-satellite-driver": "dev-master"
+    "bmlt/bmlt-satellite-base-class": "3.9.4"
   }
 }
