@@ -3,7 +3,7 @@
 *   \file   bmlt-drupal-satellite-plugin.php                                                *
 *                                                                                           *
 *   \brief  This is a Drupal plugin of a BMLT satellite client.                             *
-*   \version 3.9.3                                                                          *
+*   \version 3.9.4                                                                          *
 *                                                                                           *
     This file is part of the Basic Meeting List Toolbox (BMLT).
     
@@ -26,7 +26,8 @@
 // define ( '_DEBUG_MODE_', 1 ); //Uncomment for easier JavaScript debugging.
 
 // Include the satellite driver class.
-require_once ( dirname ( __FILE__ ).'/BMLT-Satellite-Base-Class/bmlt-cms-satellite-plugin.php' );
+define('ROOTPATH', __DIR__);
+require_once ( ROOTPATH .'/vendor/bmlt/bmlt-satellite-base-class/bmlt-cms-satellite-plugin.php' );
 
 global $bmlt_localization;  ///< Use this to control the localization.
 
@@ -117,9 +118,28 @@ class BMLTDrupalPlugin extends BMLTPlugin
     ****************************************************************************************/
     protected function get_ajax_base_uri()
         {
-        $port = $_SERVER['SERVER_PORT'] ;
-        // IIS puts "off" in the HTTPS field, so we need to test for that.
-        $https = (!empty ( $_SERVER['HTTPS'] ) && (($_SERVER['HTTPS'] !== 'off') || ($port == 443))); 
+        // We try to account for SSL and unusual TCP ports.
+        $port = null;
+        $https = false;
+        $from_proxy = array_key_exists("HTTP_X_FORWARDED_PROTO", $_SERVER);
+        if ($from_proxy) {
+            // If the port is specified in the header, use it. If not, default to 80
+            // for http and 443 for https. We can't trust what's in $_SERVER['SERVER_PORT']
+            // because something in front of the server is fielding the request.
+            $https = $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https';
+            if (array_key_exists("HTTP_X_FORWARDED_PORT", $_SERVER)) {
+                $port = intval($_SERVER['HTTP_X_FORWARDED_PORT']);
+            } elseif ($https) {
+                $port = 443;
+            } else {
+                $port = 80;
+            }
+        } else {
+            $port = $_SERVER['SERVER_PORT'];
+            // IIS puts "off" in the HTTPS field, so we need to test for that.
+            $https = (!empty ($_SERVER['HTTPS']) && (($_SERVER['HTTPS'] !== 'off') || ($port == 443)));
+        }
+
         $server_path = $_SERVER['SERVER_NAME'];
         $my_path = $_SERVER['PHP_SELF'];
         $server_path .= trim ( (($https && ($port != 443)) || (!$https && ($port != 80))) ? ':'.$port : '', '/' );
@@ -138,7 +158,7 @@ class BMLTDrupalPlugin extends BMLTPlugin
             {
             global $base_url;
 
-            $ret = $base_url.'/'.drupal_get_path ( 'module', 'bmlt' ).'/BMLT-Satellite-Base-Class/';
+            $ret = $base_url.'/'.drupal_get_path ( 'module', 'bmlt' ).'/vendor/bmlt/bmlt-satellite-base-class/';
             }
         else
             {
@@ -420,7 +440,7 @@ class BMLTDrupalPlugin extends BMLTPlugin
                 $additional_css .= "\t$temp\n";
                 }
                 
-            $dirname = dirname ( __FILE__ ) . '/BMLT-Satellite-Base-Class/themes';
+            $dirname = dirname ( __FILE__ ) . '/vendor/bmlt/bmlt-satellite-base-class/themes';
             $dir = new DirectoryIterator ( $dirname );
 
             foreach ( $dir as $fileinfo )

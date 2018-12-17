@@ -1,0 +1,51 @@
+language: php
+php:
+- '7.1'
+env:
+  global:
+  - ZIP_FILENAME=bmlt-drupal-build${TRAVIS_BUILD_NUMBER}-${TRAVIS_COMMIT}.zip
+  - S3_BUCKET=archives.bmlt.app
+  - S3_KEY=bmlt-drupal
+jobs:
+  include:
+  - stage: zip file
+    env:
+    - BUILD_DIR=build
+    - DIST_DIR_S3=dist/s3
+    - DIST_DIR_GITHUB=dist/github
+    - GITHUB_RELEASE_FILENAME=bmlt-drupal7.zip
+    install:
+    - composer install --no-dev --no-autoloader
+    script:
+    - cp ./drupal7info/bmlt.info bmlt.info
+    - find ./ -type d | xargs chmod 755
+    - find ./ -name '*.php' | xargs chmod 644
+    - zip -6 -r $ZIP_FILENAME ./ -x "*.git*" -x "*.editorconfig*" -x "*drupal6info*" -x "*drupal7info*" -x "*.travis.yml*" -x "*doc*" -x "composer.*" && mkdir $BUILD_DIR && mv $ZIP_FILENAME $BUILD_DIR/
+    before_deploy:
+    - mkdir -p $DIST_DIR_S3 && cp $BUILD_DIR/$ZIP_FILENAME $DIST_DIR_S3/$ZIP_FILENAME
+    - mkdir -p $DIST_DIR_GITHUB && cp $BUILD_DIR/$ZIP_FILENAME $DIST_DIR_GITHUB/$GITHUB_RELEASE_FILENAME
+    deploy:
+    - provider: s3
+      access_key_id: AKIAI7JHYFA6DI3WYP5A
+      secret_access_key:
+        secure: KZwepitktfvcLgOFf3MLHPwrzdXPPqLEPujeH5hRT8vyTwt2hb1rMHhziGJITlaFm6hE6fSD84NZJyOourKCeYxAKZ+VnqKfUxGhgz8OYWO/xJcociVqew1i/UWi6gnPNdy3RwAlxnuZnQSAy4/NNx68l0dR6jABlLrGnD+l9x70rb/Z1XJijC5NDM3P92ROqhFZlfJXLb41OUhFK1zJIOXYhyOZn/0Fq6KU3+XPfDclT+ltRORncUjY5HsWrFKqWYkhtRoFI9qBqNULNGerO1dNQl/ESWbPprcPLegwjQmqq6T3FOxB6G5rFVgp+uDHzrfikq5YsdX9pzZKu02916mn+c/4uxeZLAoKSwZ9vSvI1fzVS3qiDi/JlbZFBno0cIMLhNtODl8LvWtMyPpZove2fMcwxYNl9usobndX1OppItmB0FbGaZZmE1sJVciupwuoa1k9E6PdwFSFtorIWI+P26IlGiBc11QtsZtIZfvFA383nwHia9runcXuLtFQZVOb1+VULuj2ELk6oewIAiyX0ab1XWdETu5OXYiGbZv++aNkEQ2PgBE+1rC5bUjw+5C05rYmqy1hsGr5KZ7tj+zK0OJNVfi8L65OUwd4KraReiSqB6ae728jSLx76v0Cxd6yZTHXSzQJvWPUgWhardwBx9Zy34efhtlprUJwaRU=
+      bucket: "$S3_BUCKET"
+      local_dir: "$DIST_DIR_S3"
+      upload-dir: "$S3_KEY"
+      skip_cleanup: true
+      on:
+        all_branches: true
+    - provider: releases
+      api_key:
+        secure: pHxhNiLbiswYiQV4hgwA71Dmr58h1NAaI/0u64KN+fViK9TIzsHbK55XSj/HpT2wx1LvDKE4bQ2oArMsVwjkiPrcDxzV+e1M8iRpvdUA+arrXhyzk+gXoyO0y6wD2PsI8qybZsXtyVDId8hV3VzraBqA08mtAW+P0j4RPPm6kF1UPs2u+OZht1FAV61RiTdz5VqJXBSzotKy1TglkOO3xxol97nj9aCIitALKKZtfMVo2CSwrGG6+SQw8AUG0+INMFfa/ZG2GK7slvkNbz0x600hiNMLBQGAY6RP4qo97QdZTfKnLCdLHUYzK99rHAdiBGF9mk5m/0sLAMMhxV3Qb3TG9f56FU8+bgT40G2AvfRiXaXt0oXkIiaqeEbOGrwBYI34kEm5jmW+D/rum7rYIOoOyQqIEKnb+P+2tVOp61rOuxRXIvgehbPnbnF/DWR1u2cVQILvgklYglyelSiZ3gUdSg2t0YVhqlw2j3hKZNIVPZ6ulqgH/aoU31z2uLYohaDW0sDQpkOxuvmJiHa9GqZlVOhKVLzUByLids/df5+RK3ghsFxzv/0+vRMkx+OS+JfGAwtHmiVkh6f0f1+ZF/DXv3ujLm43NGO4R67aUr7dDpxbCpqA7VrijRU/q4tFxOFlWfBmfSLvnGutTb4uBFVNXvS9hSwxCKg+paA/2eo=
+      file: "$DIST_DIR_GITHUB/$GITHUB_RELEASE_FILENAME"
+      skip_cleanup: true
+      name: "$TRAVIS_TAG"
+      on:
+        tags: true
+notifications:
+  slack:
+    rooms:
+    - secure: bmoIugz9sorNakDw7LnfC3iB7a4CnhuZeZBAVxefSoqipbZAGLoA86pSaDwSK3kNsCRAUXyHJ0pBxxJuCO5jrQKhl9TNBFQQ60KPvn3LQj9OXXTSHp4qoqBytipQGyjeqySu4fJt8Lc0u8FQ0qinxn21qF7K7c54aygVKQd+nxf/+9rVzSOJIY+c6UEBb9FwKfHl9cOJy8nTHYPNl0ZbQaYVS1gvyOV2jzrlurOXb0t2xYs2W9EOAjUd2E4ZVaD8EEyRZ9zcvy8ne41qZGBLMJjHZo6TdN4x0AdEYiITst5fKj+YILNCaVQMyURu5h65RPVXyjZ/eIOUixSt1EOpMTxWcRiDn3H7B2F7eEUIXyo/c5x1AEWEQFLGK+/PEqWx/zaBG0rJJdzVbLaqet2kg5piy+f84EBCZiXm7CZIYPMSjLJo9AJDcY9iSRgvpRnkSagHZAgMILNut53aNPd8i3FoOeycPwux/KDQpSz0uIpn4xu26VY0bzxJ8N27VugUhmNhLCN05Hgw8GoDjEoh4EgPPsdNVzXT4mzpjx2GfhRZOm/78LUSDB/w3oIAEPzRFfhberBAo0l2w9T5+Ynbw9yyquYgNUOW/nMhbwqOPbWqndHa8Xume0DXp2COHEqoSZx4gDIIRRKjKdsrFjjasWB5K7IQXQfBoiGAL7EscNA=
+    on_success: change
+  email: false

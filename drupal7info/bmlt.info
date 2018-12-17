@@ -1,8 +1,8 @@
 ; $Id: bmlt.info $
-version = "3.9.3"
+version = "3.9.4"
 name = BMLT
 description = This is a satellite client for a BMLT root server.
 core = 7.x
 files[] = bmlt-drupal-satellite-plugin.php
-files[] = BMLT-Satellite-Base-Class/bmlt-cms-satellite-plugin.php
-files[] = BMLT-Satellite-Base-Class/BMLT-Satellite-Driver/bmlt_satellite_controller.class.php
+files[] = vendor/bmlt/bmlt-satellite-base-class/bmlt-cms-satellite-plugin.php
+files[] = vendor/bmlt/bmlt-satellite-driver/bmlt_satellite_controller.class.php

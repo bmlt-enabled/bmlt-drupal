@@ -1,0 +1,15 @@
+{
+  "name": "bmlt/bmlt-drupal",
+  "description": "This is a Drupal 7 module of a BMLT satellite client.",
+  "type": "project",
+  "license": "MIT",
+  "authors": [{
+    "name": "littlegreenviper"
+  },{
+    "name": "radius314"
+  }],
+  "require": {
+    "bmlt/bmlt-satellite-base-class": "3.9.9",
+    "bmlt/bmlt-satellite-driver": "1.0.19"
+  }
+}
