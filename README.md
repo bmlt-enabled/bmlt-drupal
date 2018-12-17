@@ -28,6 +28,11 @@ This module operates through the use of text filters/input formats. You need to 
 
 CHANGELIST
 ----------
+***Version 3.9.4* ** *- UNRELEASED*
+
+- Migrated to use composer instead of submodules.
+- When creating URLs for static content, the HTTP_X_FORWARDED_PORT and HTTP_X_FORWARDED_PROTO headers are now inspected for determining the port and protocol.
+
 ***Version 3.9.3* ** *- July 31, 2018*
 
 - Minor warning fix for missing lang.
