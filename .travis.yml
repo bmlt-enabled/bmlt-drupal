@@ -17,7 +17,7 @@ jobs:
     install:
     - composer install --no-dev
     script:
-    - cp /drupal7info/bmlt.info /../bmlt.info
+    - cp ./drupal7info/bmlt.info bmlt.info
     - find ./ -type d | xargs chmod 755
     - find ./ -name '*.php' | xargs chmod 644
     - zip -r $ZIP_FILENAME ./ -x "*.git*" -x "*.editorconfig*" -x "*drupal6info*" -x "*.travis.yml*" -x "*doc*" -x "composer.*" && mkdir $BUILD_DIR && mv $ZIP_FILENAME $BUILD_DIR/
