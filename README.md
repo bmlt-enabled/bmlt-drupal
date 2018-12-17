@@ -11,11 +11,11 @@ system.
 REQUIREMENTS
 ------------
 
-The project requires a functioning [BMLT root server](http://bmlt.magshare.net/root-server).
+The project requires a functioning [BMLT root server](http://bmlt.app/root-server).
 It does not implement a root server, but connects to an existing one.
 It requires a Web server capable of executing PHP 5.0 or above.
 
-This class uses the BMLT Satellite Base Class, which is available on [BitBucket, here](https://bitbucket.org/bmlt/bmlt-satellite-base-class).
+This class uses the BMLT Satellite Base Class, which is available on [GitHub, here](https://github.com/bmlt-enabled/bmlt-satellite-base-class/).
 
 INSTALLATION
 ------------
@@ -140,39 +140,39 @@ CHANGELIST
 ***Version 3.3.6* ** *- April 21, 2016*
 
 - Made it so that the details in the standard shortcode can be dismissed by clicking anywhere. I also now display a visible translucent mask.
-- Fixed a bug, in which the [bmlt_table](http://bmlt.magshare.net/satellites/the-fast-table-display/) did not style correctly. The default Drupal styles clobber the built-in ones, so I had to reinforce the built-in ones a bit.
+- Fixed a bug, in which the [bmlt_table](http://bmlt.app/satellites/the-fast-table-display/) did not style correctly. The default Drupal styles clobber the built-in ones, so I had to reinforce the built-in ones a bit.
 
 ***Version 3.3.4* ** *- April 14, 2016*
 
 - Refactored to make the code more straightforward and reusable.
 - Refactored this file for better markdown display.
-- Fixed a bug, in which the proper throbber was not being displayed where multiple themes are on the same page for the [bmlt_table](http://bmlt.magshare.net/satellites/the-fast-table-display/) shortcode.
-- Added a "Complex Table" preset to the unit test (Displays multiple [bmlt_table](http://bmlt.magshare.net/satellites/the-fast-table-display/) shortcodes).
+- Fixed a bug, in which the proper throbber was not being displayed where multiple themes are on the same page for the [bmlt_table](http://bmlt.app/satellites/the-fast-table-display/) shortcode.
+- Added a "Complex Table" preset to the unit test (Displays multiple [bmlt_table](http://bmlt.app/satellites/the-fast-table-display/) shortcodes).
 
 ***Version 3.3.3* ** *- April 9, 2016*
 
-- Fixes a bug that could possibly cause issues with unparameterized instances of [bmlt_table](http://bmlt.magshare.net/satellites/the-fast-table-display/).
+- Fixes a bug that could possibly cause issues with unparameterized instances of [bmlt_table](http://bmlt.app/satellites/the-fast-table-display/).
 
 ***Version 3.3.2* ** *- April 9, 2016*
 
 - Added a "Breaker Div" to the end of the meeting list.
 - Work on improving code quality.
-- Added more style hooks to the [bmlt_table](http://bmlt.magshare.net/satellites/the-fast-table-display/) shortcode display.
-- Fixed a minor bug in the [bmlt_simple](http://bmlt.magshare.net/satellites/simple/) and [bmlt_table](http://bmlt.magshare.net/satellites/the-fast-table-display/) shortcodes, where supplying just a settings ID would be ignored.
+- Added more style hooks to the [bmlt_table](http://bmlt.app/satellites/the-fast-table-display/) shortcode display.
+- Fixed a minor bug in the [bmlt_simple](http://bmlt.app/satellites/simple/) and [bmlt_table](http://bmlt.app/satellites/the-fast-table-display/) shortcodes, where supplying just a settings ID would be ignored.
 
 ***Version 3.3.1* ** *- April 6, 2016*
 
 - Made the weekday tab overflow hidden.
 - The format circles now float to the right.
 - Added a display for days with no meetings.
-- Fixed a bug in the [bmlt_table](http://bmlt.magshare.net/satellites/the-fast-table-display/) shortcode, where the loading throbber would get replaced too quickly when selecting weekday tabs.
+- Fixed a bug in the [bmlt_table](http://bmlt.app/satellites/the-fast-table-display/) shortcode, where the loading throbber would get replaced too quickly when selecting weekday tabs.
 - Corrected a bug that allowed "00:00" times (should be "Midnight").
 - Fixed a bug in the "simple map search" that displayed the info windows offset.
 
 ***Version 3.3.0* ** *- April 4, 2016*
 
 - Made it so that we can have specialized themes, amied at only certain shortcodes.
-- Major rewrite of the [bmlt_table](http://bmlt.magshare.net/satellites/the-fast-table-display/) shortcode, to improve responsive design.
+- Major rewrite of the [bmlt_table](http://bmlt.app/satellites/the-fast-table-display/) shortcode, to improve responsive design.
 
 ***Version 3.2.4* ** *- April 1, 2016 (Happy April Fools'!)*
 
@@ -197,7 +197,7 @@ CHANGELIST
     
 ***Version 3.2.0* ** *- March 29, 2016*
 
-- Significant addition of the new [bmlt_table](http://bmlt.magshare.net/satellites/the-fast-table-display/) shortcode.
+- Significant addition of the new [bmlt_table](http://bmlt.app/satellites/the-fast-table-display/) shortcode.
 - Removed unecessary items from admin screen.
 - Bug fixes.
     
