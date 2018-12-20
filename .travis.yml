@@ -21,13 +21,13 @@ jobs:
     - BUILD_DIR=build
     - DIST_DIR_S3=dist/s3
     - DIST_DIR_GITHUB=dist/github
-    - GITHUB_RELEASE_FILENAME=bmlt-basic.zip
+    - GITHUB_RELEASE_FILENAME=bmlt-drupal7.zip
     install:
     - composer install
     script:
     - find ./ -type d | xargs chmod 755
     - find ./ -name '*.php' | xargs chmod 644
-    - zip -r $ZIP_FILENAME ./ -x "*.git*" -x "*.editorconfig*" -x "*.travis.yml*" -x "*doc*" -x "*vendor/squizlabs*" -x "composer.*" && mkdir $BUILD_DIR && mv $ZIP_FILENAME $BUILD_DIR/
+    - zip -r $ZIP_FILENAME ./ -x "*.git*" -x "*.editorconfig*" -x "*drupal6info*" -x "*drupal7info*" -x "*vendor/squizlabs*" -x "*.travis.yml*" -x "*doc*" -x "composer.*" && mkdir $BUILD_DIR && mv $ZIP_FILENAME $BUILD_DIR/
     before_deploy:
     - mkdir -p $DIST_DIR_S3 && cp $BUILD_DIR/$ZIP_FILENAME $DIST_DIR_S3/$ZIP_FILENAME
     - mkdir -p $DIST_DIR_GITHUB && cp $BUILD_DIR/$ZIP_FILENAME $DIST_DIR_GITHUB/$GITHUB_RELEASE_FILENAME
