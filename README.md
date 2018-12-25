@@ -29,6 +29,12 @@ This module operates through the use of text filters/input formats. You need to 
 CHANGELIST
 ----------
 
+***Version 3.9.6* ** *- December 24, 2018*
+
+- Fixed an issue where the Enter key would not submit the meeting search form when using Firefox on standard [[BMLT]] shortcode.
+- Fixed an issue with Google Map API being called wrong.
+- Added sorting to map search for service bodies and formats.
+
 ***Version 3.9.5* ** *- December 20, 2018*
 
 - Fix for the BMLT_CHANGES shortcode.
