@@ -1,5 +1,5 @@
 ; $Id: bmlt.info $
 name = BMLT
 description = This is a satellite client for a BMLT root server.
-version = "3.9.4"
+version = "3.10.0"
 core = 6.x
